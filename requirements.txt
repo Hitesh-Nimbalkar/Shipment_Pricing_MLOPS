@@ -1,0 +1,25 @@
+PyYAML
+pandas 
+flask
+dill
+dnspython
+fastapi
+pymongo
+python-dotenv
+types-s3transfer
+uvicorn
+watchfiles
+websockets
+wincertstore
+xgboost
+neuro-mf
+streamlit
+scipy
+numpy
+seaborn
+scikit-learn
+geopandas
+statsmodels
+regex
+optuna
+#-e .
