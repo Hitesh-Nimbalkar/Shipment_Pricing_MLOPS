@@ -1,0 +1,36 @@
+ColumnNames:
+  ASN/DN: object
+  Brand: object
+  Country: object
+  Delivered_to_Client_Date: object
+  Delivery_Recorded_Date: object
+  Dosage: object
+  Dosage_Form: object
+  First_Line_Designation: object
+  Freight_Cost_(USD): object
+  Fulfill_Via: object
+  ID: int64
+  Item_Description: object
+  Line_Item_Insurance_(USD): float64
+  Line_Item_Quantity: int64
+  Line_Item_Value: float64
+  Managed_By: object
+  Manufacturing_Site: object
+  Molecule/Test_Type: object
+  PO/SO: object
+  PO_Sent_to_Vendor_Date: object
+  PQ: object
+  PQ_First_Sent_to_Client_Date: object
+  Pack_Price: float64
+  Product_Group: object
+  Project_Code: object
+  Scheduled_Delivery_Date: object
+  Shipment_Mode: object
+  Sub_Classification: object
+  Unit_Price: float64
+  Unit_of_Measure_(Per_Pack): int64
+  Vendor: object
+  Vendor_INCO_Term: object
+  Weight_(Kilograms): object
+FileName: SCMS_Delivery_History_Dataset.csv
+NumberOfColumns: 33

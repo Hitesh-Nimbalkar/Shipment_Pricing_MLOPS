@@ -22,4 +22,5 @@ geopandas
 statsmodels
 regex
 optuna
+schema
 #-e .
