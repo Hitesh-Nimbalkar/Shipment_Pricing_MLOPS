@@ -14,7 +14,7 @@ def get_requirements() -> List[str]:
     return requirement_list
 
 setup(
-    name="Machine_Failure",
+    name="Shipment Pricing",
     version="0.0.1",
     author="Hitesh Nimbalkar",
     author_email="nimbalkarhitesh@gmail.com",
