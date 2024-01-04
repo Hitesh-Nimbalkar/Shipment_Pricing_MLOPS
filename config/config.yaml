@@ -15,6 +15,13 @@ data_ingestion_config:
   ingested_train_dir: Train
   ingested_test_dir: Test
 
+
+data_validation_config:
+  data_validation_dir: data_validation
+  validated_data: validated_data
+  Train_data: Train
+  Test_data: Test
+
 data_transformation_config:
   data_transformation_dir: data_transformation
   transformed_dir: transformed_data

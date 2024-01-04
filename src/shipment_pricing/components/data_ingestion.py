@@ -9,6 +9,7 @@ from src.shipment_pricing.exception.exception import ApplicationException
 import pandas as pd
 import shutil
 from sklearn.model_selection import train_test_split
+import yaml
 
 
 class DataIngestion:
@@ -42,6 +43,8 @@ class DataIngestion:
             df:pd.DataFrame  = get_collection_as_dataframe(
                 database_name=self.data_ingestion_config.database_name, 
                 collection_name=self.data_ingestion_config.collection_name)
+            
+            logging.info(df.head(10))
 
             logging.info("Saving Data from Database to local folder ....")
             
@@ -90,7 +93,10 @@ class DataIngestion:
         
         
         # Load data from the CSV file
-        data = pd.read_csv(csv_file_path,index_col=0)
+        data = pd.read_csv(csv_file_path,index_col=False)
+        # Drop unnamed column if it exists
+        if 'Unnamed: 0' in data.columns:
+            data.drop(columns=['Unnamed: 0'], inplace=True)
 
         size=self.data_ingestion_config.split_size
 
@@ -130,6 +136,15 @@ class DataIngestion:
             logging.info("---------------------- Initiating Data Ingestion -----------------")
             
             logging.info("Downloading data from mongo ")
+             # Define the path where you want to save the YAML file
+            file_path =ARTIFACT_ENTITY_YAML_FILE_PATH
+            artifact_data={}
+
+            # Write data to YAML file
+            with open(file_path, 'w') as yaml_file:
+                yaml.dump(artifact_data, yaml_file, default_flow_style=False)
+
+            print(f"Artifact YAML file  has been created successfully.")
             ingest_file_path=self.get_data_from_mongo()
             
             logging.info("Splitting data .... ")

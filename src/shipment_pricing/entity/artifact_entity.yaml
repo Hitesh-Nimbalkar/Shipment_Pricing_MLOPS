@@ -1,0 +1,3 @@
+data_validation_artifact:
+  validated_test_path: G:\Resume_Projects\Regression\Shipment_MLOPS\artifact\data_validation\Test\test.csv
+  validated_train_path: G:\Resume_Projects\Regression\Shipment_MLOPS\artifact\data_validation\Train\train.csv

@@ -1,12 +1,9 @@
 import yaml
 from src.shipment_pricing.exception.exception import ApplicationException
 import os,sys
-import dill
-import pandas as pd
-import numpy as np
 
 
-def write_ymal_file(file_path:str, data:dict = None):
+def write_yaml_file(file_path:str, data:dict = None):
     try:
         os.makedirs(os.path.dirname(file_path),exist_ok=True)
         with open(file_path, 'w') as f:
@@ -27,3 +24,21 @@ def read_yaml_file(file_path:str)->dict:
             return yaml.safe_load(yaml_file)
     except Exception as e:
         raise ApplicationException(e,sys) from e
+    
+    
+def add_dict_to_yaml(file_path, new_data):
+    try:
+        # Load the existing YAML data
+        with open(file_path, 'r') as file:
+            existing_data = yaml.safe_load(file)
+
+        # Merge the existing data with the new dictionary data
+        existing_data.update(new_data)
+
+        # Write the updated data back to the file
+        with open(file_path, 'w') as file:
+            yaml.dump(existing_data, file, default_flow_style=False)
+
+        print("Data added successfully.")
+    except Exception as e:
+        print("An error occurred:", e)

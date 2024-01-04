@@ -12,6 +12,9 @@ def get_collection_as_dataframe(database_name: str, collection_name: str) -> pd.
         with mongo_client() as client:
             logging.info(f"Reading data from database: {database_name} and collection: {collection_name}")
             df = pd.DataFrame(list(client[database_name][collection_name].find()))
+            # Drop unnamed column if it exists
+            if 'Unnamed: 0' in df.columns:
+                df.drop(columns=['Unnamed: 0'], inplace=True)
 
             if "_id" in df.columns:
                 logging.info(f"Dropping column: _id ")
