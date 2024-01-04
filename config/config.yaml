@@ -6,9 +6,9 @@ training_pipeline_config:
   artifact_dir: artifact
 
 data_ingestion_config:
-  data_base: Shipment_pricing
+  data_base: Shipment_Pricing
   collection_name: Data
-  data_ingestion: data_ingestion
+  artifact_dir: data_ingestion
   raw_data_dir: raw_data
   train_test_split : 0.2
   ingested_dir: ingested_Data

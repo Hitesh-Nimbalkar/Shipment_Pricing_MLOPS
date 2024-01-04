@@ -32,7 +32,5 @@ ColumnNames:
   Vendor: object
   Vendor_INCO_Term: object
   Weight_(Kilograms): object
-
-  
 FileName: SCMS_Delivery_History_Dataset.csv
 NumberOfColumns: 33
