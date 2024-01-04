@@ -202,7 +202,6 @@ class Feature_Engineering(BaseEstimator, TransformerMixin):
         print("Indexes:", len(indexes))
         X = X.drop(indexes)
         
-        X.to_csv("modified.csv")
         # Drop rows where any value in the specified column is a string
         X = X[~X['Freight_Cost_USD_Clean'].str.contains('See')]
         X = X[~X['Weight_Kilograms_Clean'].str.contains('See')]
