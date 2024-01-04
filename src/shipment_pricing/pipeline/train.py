@@ -5,6 +5,7 @@ from src.shipment_pricing.entity.config_entity import *
 from src.shipment_pricing.entity.artifact_entity import *
 from src.shipment_pricing.components.data_ingestion import DataIngestion
 from src.shipment_pricing.components.data_validation import DataValidation
+from src.shipment_pricing.components.data_transformation import DataTransformation
 import  sys
 
 
@@ -33,6 +34,16 @@ class Pipeline():
             return data_validation.initiate_data_validation()
         except Exception as e:
             raise ApplicationException(e, sys) from e
+
+    def start_data_transformation(self,data_ingestion_artifact: DataIngestionArtifact) -> DataTransformationArtifact:
+        try:
+            data_transformation = DataTransformation(
+                data_transformation_config = DataTransformationConfig(self.training_pipeline_config),
+                data_ingestion_artifact = data_ingestion_artifact)
+
+            return data_transformation.initiate_data_transformation()
+        except Exception as e:
+            raise ApplicationException(e,sys) from e
         
 
 
@@ -43,6 +54,9 @@ class Pipeline():
                 
                 # data Validation 
                 data_validation_artifact=self.start_data_validation(data_ingestion_artifact=data_ingestion_artifact)
+                
+                # data transformation 
+                data_transformation_artifact = self.start_data_transformation(data_ingestion_artifact=data_ingestion_artifact)
             
             except Exception as e:
                 raise ApplicationException(e, sys) from e

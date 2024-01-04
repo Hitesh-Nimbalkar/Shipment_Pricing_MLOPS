@@ -1,0 +1,92 @@
+categorical_columns:
+  Brand:
+  - Generic
+  - Others
+  - Aluvia
+  - Determine
+  - Uni-Gold
+  - Norvir
+  - Bioline
+  - Stat-Pak
+  Country:
+  - Zambia
+  - "C\xF4te d'Ivoire"
+  - Vietnam
+  - Nigeria
+  - Haiti
+  - Tanzania
+  - Guyana
+  - Mozambique
+  - Congo, DRC
+  - Uganda
+  - Others
+  - South Sudan
+  - South Africa
+  - Zimbabwe
+  - Rwanda
+  - Ethiopia
+  - Burundi
+  - Kenya
+  - Namibia
+  Dosage_Form:
+  - Tablet
+  - Test kit
+  - Oral
+  - Capsule
+  - Injection
+  First_Line_Designation:
+  - 'Yes'
+  - 'No'
+  Fulfill_Via:
+  - From RDC
+  - Direct Drop
+  Managed_By:
+  - PMO - US
+  Product_Group:
+  - ARV
+  - HRDT
+  - ANTM
+  - ACT
+  - MRDT
+  Shipment_Mode:
+  - Truck
+  - Air
+  - Air Charter
+  - Ocean
+  - .nan
+  Sub_Classification:
+  - Adult
+  - HIV
+  - Pediatric
+  - Malaria
+  - ACT
+  Vendor:
+  - SCMS from RDC
+  - Others
+  - ABBVIE LOGISTICS (FORMERLY ABBOTT LOGISTICS BV)
+  - STRIDES ARCOLAB LIMITED
+  - MYLAN LABORATORIES LTD (FORMERLY MATRIX LABORATORIES)
+  - Orgenics, Ltd
+  - Trinity Biotech, Plc
+  - Aurobindo Pharma Limited
+  - HETERO LABS LIMITED
+  - CIPLA LIMITED
+  - Standard Diagnostics, Inc.
+  - CHEMBIO DIAGNOSTIC SYSTEMS, INC.
+  Vendor_INCO_Term:
+  - N/A - From RDC
+  - EXW
+  - FCA
+  - DDP
+  - CIP
+  - DAP
+  - DDU
+  - CIF
+numerical_columns:
+- Unit_of_Measure_(Per_Pack)
+- Line_Item_Quantity
+- Line_Item_Value
+- Pack_Price
+- Unit_Price
+- Line_Item_Insurance_(USD)
+- Weight_Kilograms

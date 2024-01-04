@@ -7,6 +7,8 @@ import collections
 import yaml
 
 
+
+
 class IngestedDataValidation:
 
     def __init__(self, validate_path, schema_path):
@@ -102,3 +104,4 @@ class IngestedDataValidation:
                 print(f"Data type mismatch for column '{column}'. Expected {expected_type}, but found {df[column].dtype}.")
 
         return flag
+    

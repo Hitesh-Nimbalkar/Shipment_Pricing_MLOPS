@@ -8,9 +8,6 @@ from src.shipment_pricing.utils.main_utils import read_yaml_file,write_yaml_file
 from src.shipment_pricing.entity.raw_data_validation import IngestedDataValidation
 import shutil
 from src.shipment_pricing.constant import *
-import pandas as pd
-
-
 
 class DataValidation:
     def __init__(self,data_validation_config:DataValidationConfig,
@@ -66,6 +63,7 @@ class DataValidation:
       
 
 
+
         
     def is_Validation_successfull(self):
         try:
@@ -95,8 +93,7 @@ class DataValidation:
                     file_name=test_filename)
 
                 is_test_column_name_same = self.test_data.check_column_names()
-                validating_test_data_types=self.test_data.validate_data_types(filepath=self.test_path
-                                                                               )
+                validating_test_data_types=self.test_data.validate_data_types(filepath=self.test_path)
 
                 is_test_missing_values_whole_column = self.test_data.missing_values_whole_column()
 
@@ -107,19 +104,19 @@ class DataValidation:
 
                 
                 logging.info(
-                    f"Train_set status: "
-                    f"is Train filename validated? {is_train_filename_validated} | "
-                    f"is train column name validated? {is_train_column_name_same} | "
-                    f"whole missing columns? {is_train_missing_values_whole_column}"
-                    f"Data type validation? {validating_train_data_types}"
-                )
+                                f"Train_set status: "
+                                f"is Train filename validated? {is_train_filename_validated} | "
+                                f"is train column name validated? {is_train_column_name_same} | "
+                                f"whole missing columns? {is_train_missing_values_whole_column}"
+                                f"Data type validation? {validating_train_data_types}"
+                            )
                 logging.info(
-                    f"Test_set status: "
-                    f"is Test filename validated? {is_test_filename_validated} | "
-                    f"is test column names validated? {is_test_column_name_same} | "
-                    f"whole missing columns? {is_test_missing_values_whole_column}"
-                    f"Data type validation? {validating_test_data_types}"
-)
+                            f"Test_set status: "
+                            f"is Test filename validated? {is_test_filename_validated} | "
+                            f"is test column names validated? {is_test_column_name_same} | "
+                            f"whole missing columns? {is_test_missing_values_whole_column}"
+                            f"Data type validation? {validating_test_data_types}"
+                                )
                 if is_train_filename_validated  & is_train_column_name_same & is_train_missing_values_whole_column & validating_train_data_types :
                     
                     ## Exporting Train.csv file 
@@ -169,7 +166,7 @@ class DataValidation:
         except Exception as e:
             raise ApplicationException(e, sys) from e      
         
-
+        
     def initiate_data_validation(self):
         try:
             
@@ -190,3 +187,6 @@ class DataValidation:
 
     def __del__(self):
         logging.info(f"{'>>' * 30}Data Validation log completed.{'<<' * 30}")
+        
+
+

@@ -1,0 +1,45 @@
+drop_columns:
+- ASN/DN
+- Delivered_to_Client_Date
+- Delivery_Recorded_Date
+- ID
+- Dosage
+- Molecule/Test_Type
+- Item_Description
+- Manufacturing_Site
+- PO/SO
+- PO_Sent_to_Vendor_Date
+- PQ
+- PQ_First_Sent_to_Client_Date
+- Project_Code
+- Scheduled_Delivery_Date
+
+target_column:
+- Freight_Cost_USD
+
+encode_columns:
+- Country
+- Managed_By
+- Fulfill_Via
+- Vendor_INCO_Term
+- Shipment_Mode
+- Product_Group
+- Sub_Classification
+- Vendor
+- Brand
+- Dosage_Form
+- First_Line_Designation
+- Manufacturing_Location
+
+numerical_columns:
+- Unit_of_Measure_(Per_Pack)
+- Line_Item_Quantity
+- Line_Item_Value
+- Pack_Price
+- Unit_Price
+- Line_Item_Insurance_(USD)
+- Freight_Cost_USD
+- Weight_Kilograms
+
+
+

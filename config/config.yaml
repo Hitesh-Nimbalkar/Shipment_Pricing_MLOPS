@@ -22,6 +22,8 @@ data_validation_config:
   Train_data: Train
   Test_data: Test
 
+
+
 data_transformation_config:
   data_transformation_dir: data_transformation
   transformed_dir: transformed_data

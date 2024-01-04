@@ -34,8 +34,41 @@ DATA_VALIDATION_VALID_DATASET ="validated_data"
 DATA_VALIDATION_TRAIN_FILE = "Train_data"
 DATA_VALIDATION_TEST_FILE ="Test_data"
 
+# transformation config file  
+ROOT_DIR=os.getcwd()
+CONFIG_DIR='config'
+TRANSFORMATION_FILE='transformation.yaml'
+TRANFORMATION_YAML_FILE_PATH=os.path.join(ROOT_DIR,CONFIG_DIR,TRANSFORMATION_FILE)
+TARGET_COLUMN_KEY= 'target_column'
+NUMERICAL_COLUMN_KEY= 'numerical_columns'
+CATEGORICAL_COLUMNS ='encode_columns'
+DROP_COLUMNS= 'drop_columns'
 
+
+# key  ---> config.yaml---->values
+DATA_TRANSFORMATION_CONFIG_KEY = "data_transformation_config"
+DATA_TRANSFORMATION='data_transformation_dir'
+DATA_TRANSFORMATION_DIR_NAME_KEY = "transformed_dir"
+DATA_TRANSFORMATION_TRAIN_DIR_NAME_KEY = "transformed_train_dir"
+DATA_TRANSFORMATION_TEST_DIR_NAME_KEY = "transformed_test_dir"
+DATA_TRANSFORMATION_PREPROCESSING_DIR_KEY = "preprocessing_dir"
+DATA_TRANSFORMATION_PREPROCESSING_FILE_NAME_KEY = "preprocessed_object_file_name"
+DATA_TRANSFORMATION_FEA_ENG_FILE_NAME_KEY='feature_eng_file'
+DATA_TRANSFORMATION_PREPROCESSOR_NAME_KEY='preprocessed_object_file_name'
+
+
+# Prediction Yaml file path 
+ROOT_DIR=os.getcwd()
+CONFIG_DIR='config'
+PREDICTION_YAML_FILE='prediction.yaml'
+PREDICTION_YAML_FILE_PATH=os.path.join(ROOT_DIR,CONFIG_DIR,PREDICTION_YAML_FILE)
 
 ## Artifact Entity 
 file_path=os.path.join(ROOT_DIR,'src','shipment_pricing','entity','artifact_entity.yaml')
 ARTIFACT_ENTITY_YAML_FILE_PATH=file_path
+
+# Saved Model 
+SAVED_MODEL_CONFIG_KEY='saved_model_config'
+SAVED_MODEL_DIR='directory'
+SAVED_MODEL_OBJECT='model_object'
+SAVED_MODEL_REPORT='report'
