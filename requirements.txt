@@ -16,4 +16,5 @@ scikit-learn
 geopandas
 statsmodels
 optuna
+dvc
 -e .
