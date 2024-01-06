@@ -6,6 +6,7 @@ from src.shipment_pricing.entity.artifact_entity import *
 from src.shipment_pricing.components.data_ingestion import DataIngestion
 from src.shipment_pricing.components.data_validation import DataValidation
 from src.shipment_pricing.components.data_transformation import DataTransformation
+from src.shipment_pricing.components.model_training import ModelTrainer
 import  sys
 
 
@@ -35,16 +36,27 @@ class Pipeline():
         except Exception as e:
             raise ApplicationException(e, sys) from e
 
-    def start_data_transformation(self,data_ingestion_artifact: DataIngestionArtifact) -> DataTransformationArtifact:
+    def start_data_transformation(self,data_validation_artifact: DataValidationArtifact) -> DataTransformationArtifact:
         try:
             data_transformation = DataTransformation(
                 data_transformation_config = DataTransformationConfig(self.training_pipeline_config),
-                data_ingestion_artifact = data_ingestion_artifact)
+                data_validation_artifact = data_validation_artifact)
 
             return data_transformation.initiate_data_transformation()
         except Exception as e:
             raise ApplicationException(e,sys) from e
         
+        
+    def start_model_training(self,data_transformation_artifact: DataTransformationArtifact) -> ModelTrainerArtifact:
+        try:
+            model_trainer = ModelTrainer(model_training_config=ModelTrainingConfig(self.training_pipeline_config),
+                                        data_transformation_artifact=data_transformation_artifact)   
+            
+            logging.info("Model Trainer intiated")
+
+            return model_trainer.start_model_training()
+        except Exception as e:
+            raise ApplicationException(e,sys) from e  
 
 
     def run_pipeline(self):
@@ -56,7 +68,10 @@ class Pipeline():
                 data_validation_artifact=self.start_data_validation(data_ingestion_artifact=data_ingestion_artifact)
                 
                 # data transformation 
-                data_transformation_artifact = self.start_data_transformation(data_ingestion_artifact=data_ingestion_artifact)
+                data_transformation_artifact = self.start_data_transformation(data_validation_artifact=data_validation_artifact)
+                
+                # Model Trainer 
+                model_trainer_artifact = self.start_model_training(data_transformation_artifact=data_transformation_artifact)
             
             except Exception as e:
                 raise ApplicationException(e, sys) from e

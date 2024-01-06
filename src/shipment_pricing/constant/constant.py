@@ -12,6 +12,14 @@ CONFIG_DIR='config'
 SCHEMA_FILE='config.yaml'
 CONFIG_FILE_PATH=os.path.join(ROOT_DIR,CONFIG_DIR,SCHEMA_FILE)
 
+# Model Config Path 
+# Config File path
+ROOT_DIR=os.getcwd()
+CONFIG_DIR='config'
+MODEL_TRAINING_CONFIG='model_training.yaml'
+MODEL_TRAINING_CONFIG_PATH=os.path.join(ROOT_DIR,CONFIG_DIR,MODEL_TRAINING_CONFIG)
+
+
 
 # Data Ingestion 
 # Data Ingestion Config
@@ -63,12 +71,24 @@ CONFIG_DIR='config'
 PREDICTION_YAML_FILE='prediction.yaml'
 PREDICTION_YAML_FILE_PATH=os.path.join(ROOT_DIR,CONFIG_DIR,PREDICTION_YAML_FILE)
 
-## Artifact Entity 
-file_path=os.path.join(ROOT_DIR,'src','shipment_pricing','entity','artifact_entity.yaml')
-ARTIFACT_ENTITY_YAML_FILE_PATH=file_path
+
+# Model Training 
+MODEL_TRAINING_CONFIG_KEY='model_trainer_config'
+MODEL_TRAINER_ARTIFACT_DIR = "model_training"
+MODEL_TRAINER_OBJECT = "model_object"
+MODEL_REPORT_FILE="model_report"
+MODEL_TRAINING_MLFLOW='mlflow'
+MLFLOW_RUN_ID='Run_id'
+MLFLOW_EXPERIMENT='Experiment'
 
 # Saved Model 
 SAVED_MODEL_CONFIG_KEY='saved_model_config'
 SAVED_MODEL_DIR='directory'
 SAVED_MODEL_OBJECT='model_object'
-SAVED_MODEL_REPORT='report'
+SAVED_MODEL_REPORT='model_report'
+
+
+## Artifact Entity 
+file_path=os.path.join(ROOT_DIR,'src','shipment_pricing','entity','artifact_entity.yaml')
+ARTIFACT_ENTITY_YAML_FILE_PATH=file_path
+

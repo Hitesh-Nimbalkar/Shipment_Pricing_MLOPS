@@ -1,9 +1,12 @@
 import yaml
 from src.shipment_pricing.exception.exception import ApplicationException
+from src.shipment_pricing.logger.logging import logging
 import os,sys
 import numpy as np
 import dill
 import pandas as pd
+
+
 def write_yaml_file(file_path:str, data:dict = None):
     try:
         os.makedirs(os.path.dirname(file_path),exist_ok=True)
@@ -72,6 +75,8 @@ def load_numpy_array_data(file_path: str) -> np.array:
     return: np.array data loaded
     """
     try:
+        
+        
         with open(file_path, 'rb') as file_obj:
             return np.load(file_obj, allow_pickle=True)
     except Exception as e:
@@ -134,3 +139,22 @@ def add_dict_to_yaml(file_path, new_data):
         print("Data added successfully.")
     except Exception as e:
         print("An error occurred:", e)
+        
+        
+def check_folder_contents(folder_path):
+    if not os.path.exists(folder_path):
+        logging.info("The specified folder does not exist.")
+        return False
+
+    files = [f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]
+
+    if not files:
+        logging.info("No files found in the specified folder.")
+        return False
+
+    logging.info("Files exist in the folder.")
+    logging.info("List of files:")
+    for file in files:
+        logging.info(file)
+
+    return True

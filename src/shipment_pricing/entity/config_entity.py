@@ -12,7 +12,9 @@ class TrainingPipelineConfig:
     
     def __init__(self):
         try:
-            self.artifact_dir = os.path.join(os.getcwd(),"artifact")
+            training_pipeline_config=config_data['training_pipeline_config']
+            artifact_dir=training_pipeline_config['artifact']
+            self.artifact_dir = os.path.join(os.getcwd(),artifact_dir)
         except Exception  as e:
             raise ApplicationException(e,sys)    
 
@@ -67,3 +69,24 @@ class DataTransformationConfig:
         self.preprocessed_dir = os.path.join(self.data_transformation_dir,data_transformation_key[DATA_TRANSFORMATION_PREPROCESSING_DIR_KEY])
         self.feature_engineering_object_file_path =os.path.join(self.preprocessed_dir,data_transformation_key[DATA_TRANSFORMATION_FEA_ENG_FILE_NAME_KEY])
         self.preprocessor_file_object_file_path=os.path.join(self.preprocessed_dir,data_transformation_key[DATA_TRANSFORMATION_PREPROCESSOR_NAME_KEY])
+        
+        
+        
+class ModelTrainingConfig:
+    
+    def __init__(self,training_pipeline_config:TrainingPipelineConfig):
+        
+        model_training_key=config_data[MODEL_TRAINING_CONFIG_KEY]
+
+        self.model_training_dir = os.path.join(training_pipeline_config.artifact_dir ,model_training_key[MODEL_TRAINER_ARTIFACT_DIR])
+        self.model_object_file_path = os.path.join(self.model_training_dir,model_training_key[MODEL_TRAINER_OBJECT])
+        self.model_report =  os.path.join(self.model_training_dir,model_training_key[MODEL_REPORT_FILE])
+
+class SavedModelConfig:
+    
+    def __init__(self):
+        self.saved_model_config_key=config_data[SAVED_MODEL_CONFIG_KEY]
+        ROOT_DIR=os.getcwd()
+        self.saved_model_dir=os.path.join(ROOT_DIR,self.saved_model_config_key[SAVED_MODEL_DIR])
+        self.saved_model_object_path=os.path.join(self.saved_model_dir,self.saved_model_config_key[SAVED_MODEL_OBJECT])
+        self.saved_model_report_path=os.path.join(self.saved_model_dir,self.saved_model_config_key[SAVED_MODEL_REPORT])

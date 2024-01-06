@@ -12,8 +12,9 @@ from sklearn.pipeline import Pipeline
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import OneHotEncoder, FunctionTransformer
+from sklearn.preprocessing import OneHotEncoder, FunctionTransformer,StandardScaler
 import re
+import scipy
 
 # Reading data in Transformation Schema 
 transformation_yaml = read_yaml_file(file_path=TRANFORMATION_YAML_FILE_PATH)
@@ -293,10 +294,10 @@ class DataProcessor:
         )
         numerical_transformer = Pipeline(
             steps=[
-                ('log_transform', FunctionTransformer(np.log1p, validate=False))
+                ('log_transform', FunctionTransformer(np.log1p, validate=False)),
+                ('scaler', StandardScaler())  # Add StandardScaler for numerical columns
             ]
         )
-        
 
         # Create a ColumnTransformer to apply transformations
         self.preprocessor = ColumnTransformer(
@@ -306,13 +307,28 @@ class DataProcessor:
             ],
             remainder='passthrough'
         )
-        
+
     def get_preprocessor(self):
         return self.preprocessor
 
     def fit_transform(self, data):
         # Fit and transform the data using the preprocessor
         transformed_data = self.preprocessor.fit_transform(data)
+
+        # Convert the sparse matrix to a dense array if necessary
+        if isinstance(transformed_data, (scipy.sparse.csr.csr_matrix, scipy.sparse.csc.csc_matrix)):
+            transformed_data = transformed_data.toarray()
+
+        return transformed_data
+
+    def transform(self, data):
+        # Transform the data using the preprocessor (assuming it has been fit already)
+        transformed_data = self.preprocessor.transform(data)
+
+        # Convert the sparse matrix to a dense array if necessary
+        if isinstance(transformed_data, (scipy.sparse.csr.csr_matrix, scipy.sparse.csc.csc_matrix)):
+            transformed_data = transformed_data.toarray()
+
         return transformed_data
     
     
@@ -320,11 +336,11 @@ class DataTransformation:
     
     
     def __init__(self, data_transformation_config: DataTransformationConfig,
-                    data_ingestion_artifact: DataIngestionArtifact):
+                    data_validation_artifact: DataValidationArtifact):
         try:
             logging.info(f"\n{'*'*20} Data Transformation log started {'*'*20}\n\n")
             self.data_transformation_config = data_transformation_config
-            self.data_ingestion_artifact = data_ingestion_artifact  
+            self.data_validation_artifact = data_validation_artifact  
                                 
         except Exception as e:
             raise ApplicationException(e,sys) from e
@@ -356,8 +372,8 @@ class DataTransformation:
         try:
             # Data validation Artifact ------>Accessing train and test files 
             logging.info(f"Obtaining training and test file path.")
-            train_file_path = self.data_ingestion_artifact.train_file_path
-            test_file_path = self.data_ingestion_artifact.test_file_path
+            train_file_path = self.data_validation_artifact.validated_train_path
+            test_file_path = self.data_validation_artifact.validated_test_path
             logging.info(f"Loading training and test data as pandas dataframe.")
   
             train_df = pd.read_csv(train_file_path)
@@ -391,8 +407,6 @@ class DataTransformation:
             logging.info(f"Feature Enineering - Test Data ")
             test_df = fe_obj.transform(X=test_df)
             
-
-            
         
             # Train Data 
             logging.info(f"Feature Engineering of train and test Completed.")
@@ -405,7 +419,7 @@ class DataTransformation:
             
             # Test Data
             feature_eng_test_df:pd.DataFrame = test_df.copy()
-           # feature_eng_test_df.to_csv("feature_eng_test_df.csv")
+           #feature_eng_test_df.to_csv("feature_eng_test_df.csv")
             logging.info(f" Columns in feature enginering test {feature_eng_test_df.columns}")
             logging.info(f"Saving feature engineered training and testing dataframe.")
             
@@ -454,7 +468,7 @@ class DataTransformation:
             transformed_train_array=data_preprocessor.fit_transform(data=input_feature_train_df)
             train_target_array=train_target_array
             
-            transformed_test_array=data_preprocessor.fit_transform(data=input_feature_test_df)
+            transformed_test_array=data_preprocessor.transform(data=input_feature_test_df)
             test_target_array=test_target_array
             
             
@@ -472,10 +486,10 @@ class DataTransformation:
 
             ## Saving transformed train and test file
             logging.info("Saving Transformed Train and Transformed test Data")
-            transformed_train_file_path = os.path.join(transformed_train_dir,"train.npz")
-            train_target_file_path=os.path.join(transformed_train_dir,"train_target.npz")
-            transformed_test_file_path = os.path.join(transformed_test_dir,"test.npz")
-            test_target_file_path=os.path.join(transformed_test_dir,"test_target.npz")
+            transformed_train_file_path = os.path.join(transformed_train_dir,"train.npy")
+            train_target_file_path=os.path.join(transformed_train_dir,"train_target.npy")
+            transformed_test_file_path = os.path.join(transformed_test_dir,"test.npy")
+            test_target_file_path=os.path.join(transformed_test_dir,"test_target.npy")
             
             save_numpy_array_data(file_path = transformed_train_file_path, array = transformed_train_array)
             save_numpy_array_data(file_path = train_target_file_path, array = train_target_array)

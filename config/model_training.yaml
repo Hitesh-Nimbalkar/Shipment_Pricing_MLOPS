@@ -1,0 +1,10 @@
+models:
+  name: Random Forest Regression
+  parameters:
+      n_estimators: [50, 500]
+      max_depth: [10, 20]
+      min_samples_split: [2,10]
+
+
+optuna:
+  trials: 1
