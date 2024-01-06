@@ -136,4 +136,5 @@ dmypy.json
 .artifact/
 .preprocessing_dir/
 .artifact/
-.Saved_model
+.Saved_model/
+.project_artifact/
