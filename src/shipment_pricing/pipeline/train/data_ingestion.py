@@ -1,15 +1,9 @@
-
-
 from src.shipment_pricing.exception.exception import ApplicationException
-from typing import List
-from src.shipment_pricing.utils.main_utils import read_yaml_file
-from multiprocessing import Process
+from src.shipment_pricing.utils.main_utils import write_yaml_file
 from src.shipment_pricing.entity.config_entity import *
 from src.shipment_pricing.entity.artifact_entity import *
 from src.shipment_pricing.components.data_ingestion import DataIngestion
 import  sys
-
-
 
 
 
@@ -20,11 +14,25 @@ class data_ingestion():
             
             self.training_pipeline_config=training_pipeline_config
             data_ingestion = DataIngestion(data_ingestion_config=DataIngestionConfig(self.training_pipeline_config))
-            data_ingestion.initiate_data_ingestion()
+            data_ingestion_artifact=data_ingestion.initiate_data_ingestion()
+            
+            write_yaml_file(file_path=ARTIFACT_ENTITY_YAML_FILE_PATH ,data=data_ingestion_artifact)
+            
             
         except Exception as e:
             raise ApplicationException(e, sys) from e
 
         
 if __name__ == '__main__':
+
+    file_path = 'params.yaml'
+
+    # Check if the file exists
+    if os.path.exists(file_path):
+        # If it exists, delete it
+        os.remove(file_path)
+        print(f"The file {file_path} has been deleted.")
+    else:
+        print(f"The file {file_path} does not exist.")
+
     data_ingestion()
