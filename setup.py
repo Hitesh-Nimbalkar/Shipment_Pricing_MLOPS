@@ -18,13 +18,13 @@ setup(
     version="0.0.1",
     author="Hitesh Nimbalkar",
     author_email="nimbalkarhitesh@gmail.com",
-    description="ML Regression ",
-    packages=find_packages(),
+    description="ML Regression",
+    packages=find_packages(where="src"),
+    package_dir={"": "src"},
     install_requires=get_requirements(),
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3.11"
     ],
     keywords="Regression",
-
 )
