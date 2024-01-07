@@ -7,6 +7,7 @@ from shipment_pricing.components.data_ingestion import DataIngestion
 from shipment_pricing.components.data_validation import DataValidation
 from shipment_pricing.components.data_transformation import DataTransformation
 from shipment_pricing.components.model_training import ModelTrainer
+from shipment_pricing.components.param_optimize import ParamOptimize
 import  sys
 
 
@@ -47,7 +48,18 @@ class Pipeline():
             raise ApplicationException(e,sys) from e
         
         
-    def start_model_training(self,data_transformation_artifact: DataTransformationArtifact) -> ModelTrainerArtifact:
+    def start_model_training(self,data_transformation_artifact: DataTransformationArtifact) -> paramOptmizeArtifact:
+        try:
+            param_optimise = ParamOptimize(data_transformation_artifact=data_transformation_artifact)   
+            
+            logging.info("Param optmizer intiated")
+
+            return param_optimise.optimizing_params()
+        except Exception as e:
+            raise ApplicationException(e,sys) from e  
+
+
+    def start_param_optimise(self,data_transformation_artifact: DataTransformationArtifact) -> ModelTrainerArtifact:
         try:
             model_trainer = ModelTrainer(model_training_config=ModelTrainingConfig(self.training_pipeline_config),
                                         data_transformation_artifact=data_transformation_artifact)   
@@ -72,6 +84,9 @@ class Pipeline():
                 
                 # Model Trainer 
                 model_trainer_artifact = self.start_model_training(data_transformation_artifact=data_transformation_artifact)
+                
+                # Param Optimize 
+                param_optimise_artifact=self.start_param_optimise(data_transformation_artifact=data_transformation_artifact)
             
             except Exception as e:
                 raise ApplicationException(e, sys) from e

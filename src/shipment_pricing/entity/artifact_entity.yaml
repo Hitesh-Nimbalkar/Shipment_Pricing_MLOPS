@@ -1,12 +1,6 @@
 data_ingestion:
   test_file_path: G:\Resume_Projects\Regression\Shipment_MLOPS\artifact\data_ingestion\raw_data\ingested_Data\Test\SCMS_Delivery_History_Dataset.csv
   train_file_path: G:\Resume_Projects\Regression\Shipment_MLOPS\artifact\data_ingestion\raw_data\ingested_Data\Train\SCMS_Delivery_History_Dataset.csv
-data_trandformatio:
-  feature_engineering_object_file_path: G:\Resume_Projects\Regression\Shipment_MLOPS\artifact\data_transformation\preprocessed\fea_eng.pkl
-  test_target_file_path: G:\Resume_Projects\Regression\Shipment_MLOPS\artifact\data_transformation\transformed_data\test\test_target.npy
-  train_target_file_path: G:\Resume_Projects\Regression\Shipment_MLOPS\artifact\data_transformation\transformed_data\train\train_target.npy
-  transformed_test_file_path: G:\Resume_Projects\Regression\Shipment_MLOPS\artifact\data_transformation\transformed_data\test\test.npy
-  transformed_train_file_path: G:\Resume_Projects\Regression\Shipment_MLOPS\artifact\data_transformation\transformed_data\train\train.npy
 data_transformation:
   feature_engineering_object_file_path: G:\Resume_Projects\Regression\Shipment_MLOPS\artifact\data_transformation\preprocessed\fea_eng.pkl
   test_target_file_path: G:\Resume_Projects\Regression\Shipment_MLOPS\artifact\data_transformation\transformed_data\test\test_target.npy
@@ -19,3 +13,6 @@ data_validation:
 data_validation_artifact:
   validated_test_path: G:\Resume_Projects\Regression\Shipment_MLOPS\artifact\data_validation\Test\test.csv
   validated_train_path: G:\Resume_Projects\Regression\Shipment_MLOPS\artifact\data_validation\Train\train.csv
+model_trainer:
+  model_file_path: G:\Resume_Projects\Regression\Shipment_MLOPS\Saved_model\model.pkl
+  model_report: G:\Resume_Projects\Regression\Shipment_MLOPS\Saved_model\report.yaml

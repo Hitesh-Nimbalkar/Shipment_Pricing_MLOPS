@@ -1,51 +1,54 @@
 stages:
   data_ingestion_stage:
-    cmd: python src/shipment_pricing/pipeline/train/data_ingestion.py
+    cmd: python src/shipment_pricing/pipeline/dvc_pipeline/data_ingestion.py
     deps:
       - src/shipment_pricing/entity/config_entity.py
       - src/shipment_pricing/entity/artifact_entity.py
       - src/shipment_pricing/components/data_ingestion.py
-      - config/config.yaml
-      - src/shipment_pricing/pipeline/train/data_ingestion.py
+      - config/
+      - src/shipment_pricing/pipeline/dvc_pipeline/data_ingestion.py
     outs:
       - artifact/data_ingestion/
 
   data_validation_stage:
-    cmd: python src/shipment_pricing/pipeline/train/data_validation.py
+    cmd: python src/shipment_pricing/pipeline/dvc_pipeline/data_validation.py
     deps:
       - src/shipment_pricing/entity/config_entity.py
       - src/shipment_pricing/components/data_validation.py
-      - config/config.yaml
-      - src/shipment_pricing/pipeline/train/data_validation.py
+      - config/
+      - src/shipment_pricing/pipeline/dvc_pipeline/data_validation.py
       - artifact/data_ingestion/
     outs:
       - artifact/data_validation/
 
   data_transformation_stage:
-    cmd: python src/shipment_pricing/pipeline/train/data_transformation.py
+    cmd: python src/shipment_pricing/pipeline/dvc_pipeline/data_transformation.py
     deps:
       - src/shipment_pricing/components/data_transformation.py
-      - config/config.yaml
-      - src/shipment_pricing/pipeline/train/data_transformation.py
+      - config/
+      - src/shipment_pricing/pipeline/dvc_pipeline/data_transformation.py
       - artifact/data_validation/
     outs:
       - artifact/data_transformation/
-      - preprocessing_dir/
+
 
   model_trainer_stage:
-    cmd: python src/shipment_pricing/pipeline/train/model_trainer.py
+    cmd: python src/shipment_pricing/pipeline/dvc_pipeline/model_training.py
     deps:
-      - src/shipment_pricing/components/model_trainer.py
-      - config/config.yaml
-      - src/shipment_pricing/pipeline/train/05_model_trainer.py
+      - src/shipment_pricing/components/model_training.py
+      - config/
+      - src/shipment_pricing/pipeline/dvc_pipeline/model_training.py
       - artifact/data_transformation/
-      - params.yaml
-    params:
-      - parameters.min_samples_split
-      - parameters.max_depth
-      - parameters.n_estimators
-      - Experiment
-      - Run_id
     outs:
       - artifact/model_training/
-      - Saved_model/
+
+  param_optimisation_stage:
+    cmd: python src/shipment_pricing/pipeline/dvc_pipeline/param_optimize.py
+    deps:
+      - src/shipment_pricing/components/param_optimize.py
+      - config/
+      - src/shipment_pricing/pipeline/dvc_pipeline/param_optimize.py
+    params:
+      - parameters.max_depth
+      - parameters.min_samples_split
+      - parameters.n_estimators

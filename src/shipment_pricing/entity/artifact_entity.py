@@ -22,5 +22,11 @@ class DataTransformationArtifact:
     
 @dataclass
 class ModelTrainerArtifact:
-    trained_model_file_path:str
-    model_artifact_report:str
+    model_file_path:str
+    model_report:str
+    
+@dataclass 
+class paramOptmizeArtifact:
+    model_file_path:str
+    model_report:str
+    
