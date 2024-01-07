@@ -64,13 +64,11 @@ DATA_TRANSFORMATION_PREPROCESSING_FILE_NAME_KEY = "preprocessed_object_file_name
 DATA_TRANSFORMATION_FEA_ENG_FILE_NAME_KEY='feature_eng_file'
 DATA_TRANSFORMATION_PREPROCESSOR_NAME_KEY='preprocessed_object_file_name'
 
-
 # Prediction Yaml file path 
 ROOT_DIR=os.getcwd()
 CONFIG_DIR='config'
 PREDICTION_YAML_FILE='prediction.yaml'
 PREDICTION_YAML_FILE_PATH=os.path.join(ROOT_DIR,CONFIG_DIR,PREDICTION_YAML_FILE)
-
 
 # Model Training 
 MODEL_TRAINING_CONFIG_KEY='model_trainer_config'
@@ -78,7 +76,7 @@ MODEL_TRAINER_ARTIFACT_DIR = "model_training"
 MODEL_TRAINER_OBJECT = "model_object"
 MODEL_REPORT_FILE="model_report"
 MODEL_TRAINING_MLFLOW='mlflow'
-MLFLOW_RUN_ID='Run_id'
+MLFLOW_RUN_NAME='Run_name'
 MLFLOW_EXPERIMENT='Experiment'
 
 # Saved Model 
@@ -86,6 +84,11 @@ SAVED_MODEL_CONFIG_KEY='saved_model_config'
 SAVED_MODEL_DIR='directory'
 SAVED_MODEL_OBJECT='model_object'
 SAVED_MODEL_REPORT='model_report'
+
+##  model evaluation 
+MODEL_EVAL_CONFIG_KEY='model_eval_config'
+MODEL_EVALUATION_DIRECTORY='model_eval_dir'
+MODEL_REPORT='model_eval_report'
 
 
 ## Artifact Entity 

@@ -2,7 +2,6 @@ import uuid
 from shipment_pricing.entity.config_entity import *
 from shipment_pricing.exception.exception import ApplicationException
 from shipment_pricing.utils.main_utils import read_yaml_file,add_dict_to_yaml_dvc
-from shipment_pricing.entity.config_entity import *
 from shipment_pricing.entity.artifact_entity import *
 import  sys
 from shipment_pricing.components.param_optimize import ParamOptimize
@@ -35,7 +34,7 @@ class param_optimizer():
                                                                                                 transformed_test_file_path=transformed_test_path))   
             param_optimize_artifact=param_optimize.optimizing_params()
             
-            add_dict_to_yaml_dvc(file_path=ARTIFACT_ENTITY_YAML_FILE_PATH ,new_data=param_optimize_artifact,label='model_trainer')
+            add_dict_to_yaml_dvc(file_path=ARTIFACT_ENTITY_YAML_FILE_PATH ,new_data=param_optimize_artifact,label='param_optimizer')
             
         except Exception as e:
             raise ApplicationException(e,sys) from e  

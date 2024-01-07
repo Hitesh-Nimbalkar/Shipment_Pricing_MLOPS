@@ -38,7 +38,7 @@ model_trainer_config:
   model_object: model.pkl
   model_report: report.yaml
   mlflow:
-    Run_id: Trial
+    Run_name: Trial
     Experiment: Experiment_01
 
 saved_model_config:

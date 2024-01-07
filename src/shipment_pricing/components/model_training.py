@@ -129,18 +129,18 @@ class ModelTrainer :
             # Project Config Data 
             self.config_data = read_yaml_file(CONFIG_FILE_PATH)
             self.experiment=self.config_data[MODEL_TRAINING_CONFIG_KEY][MODEL_TRAINING_MLFLOW][MLFLOW_EXPERIMENT]
-            self.run_id=self.config_data[MODEL_TRAINING_CONFIG_KEY][MODEL_TRAINING_MLFLOW][MLFLOW_RUN_ID]
+            self.run_name=self.config_data[MODEL_TRAINING_CONFIG_KEY][MODEL_TRAINING_MLFLOW][MLFLOW_RUN_NAME]
             
             
         except Exception as e:
             raise ApplicationException(e, sys)
         
     
-    def create_model_report(self,experiment,run_id,best_params, r2, model_label):
+    def create_model_report(self,experiment,run_name,best_params, r2, model_label):
         # Creating a dictionary to store the model report information
         model_report = {
             'Experiment': experiment,
-            'Run_id': run_id,
+            'Run_name': run_name,
             'R2_score': str(r2),
             'parameters': best_params,
             'Model_name': model_label
@@ -190,7 +190,7 @@ class ModelTrainer :
             
             # Model Report
             model_report=self.create_model_report(self.experiment,
-                                                    self.run_id,
+                                                    self.run_name,
                                                     best_params, 
                                                     r2, 
                                                     model_label
@@ -225,7 +225,6 @@ class ModelTrainer :
                 saved_model_score=float(saved_model_report['R2_score'])
                 
                 logging.info(saved_model_report)
-                sys.exit()
                 
                 artifact_model_score=r2
                 

@@ -26,7 +26,13 @@ class ModelTrainerArtifact:
     model_report:str
     
 @dataclass 
-class paramOptmizeArtifact:
+class ParamOptimzeArtifact:
+    model_file_path:str
+    model_report:str
+    
+@dataclass
+class ModelEvaluationArtifact:
+    message:str
     model_file_path:str
     model_report:str
     

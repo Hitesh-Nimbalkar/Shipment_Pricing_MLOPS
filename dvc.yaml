@@ -52,3 +52,12 @@ stages:
       - parameters.max_depth
       - parameters.min_samples_split
       - parameters.n_estimators
+
+  model_evaluation:
+    cmd: python src/shipment_pricing/pipeline/dvc_pipeline/model_evaluation.py
+    deps:
+      - src/shipment_pricing/components/model_evaluation.py
+      - config/
+      - src/shipment_pricing/pipeline/dvc_pipeline/model_evaluation.py
+
+

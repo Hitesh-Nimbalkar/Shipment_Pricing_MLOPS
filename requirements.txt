@@ -18,4 +18,5 @@ statsmodels
 optuna
 dvc
 dill
+mlflow
 -e .

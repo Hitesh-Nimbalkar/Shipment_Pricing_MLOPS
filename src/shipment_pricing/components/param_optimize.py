@@ -2,7 +2,7 @@
 from shipment_pricing.entity.config_entity import SavedModelConfig
 from shipment_pricing.utils.main_utils import read_yaml_file,load_numpy_array_data,save_object,check_folder_contents,load_object
 from sklearn.ensemble import RandomForestRegressor
-from shipment_pricing.entity.artifact_entity import DataTransformationArtifact,paramOptmizeArtifact
+from shipment_pricing.entity.artifact_entity import DataTransformationArtifact,ParamOptimzeArtifact
 from shipment_pricing.exception.exception import ApplicationException
 from shipment_pricing.logger.logging import logging
 from shipment_pricing.entity.config_entity import SavedModelConfig
@@ -24,11 +24,11 @@ class ParamOptimize:
         self.Saved_model=self.saved_model_config.saved_model_object_path
         self.Saved_model_report=self.saved_model_config.saved_model_report_path
         
-    def create_model_report(self,experiment,run_id,best_params, r2, model_label):
+    def create_model_report(self,experiment,run_name,best_params, r2, model_label):
         # Creating a dictionary to store the model report information
         model_report = {
             'Experiment': experiment,
-            'Run_id': run_id,
+            'Run_name': run_name,
             'R2_score': str(r2),
             'parameters': best_params,
             'Model_name': model_label
@@ -88,7 +88,7 @@ class ParamOptimize:
                     experiment = saved_model_report['Experiment']
                     Model_name = saved_model_report['Model_name']
                     R2_score = r2
-                    Run_id = saved_model_report['Run_id']
+                    Run_name = saved_model_report['Run_name']
                     
                     # Parameters used in the current training
                     parameters = {
@@ -100,7 +100,7 @@ class ParamOptimize:
                     # Creating a new model report
                     model_report = self.create_model_report(
                         experiment=experiment,
-                        run_id=Run_id,
+                        run_name=Run_name,
                         best_params=parameters,
                         model_label=Model_name,
                         r2=R2_score
@@ -120,7 +120,7 @@ class ParamOptimize:
                     # Logging information if the saved model has a higher score than the trained model
                     logging.info("Saved model has a higher score than the trained model")
                                 
-            param_optimise_artifact=paramOptmizeArtifact(model_report=self.Saved_model_report,
+            param_optimise_artifact=ParamOptimzeArtifact(model_report=self.Saved_model_report,
                                                                             model_file_path=self.Saved_model)
 
             return param_optimise_artifact
