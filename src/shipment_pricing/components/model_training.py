@@ -1,11 +1,11 @@
-from src.shipment_pricing.utils.main_utils import read_yaml_file,load_numpy_array_data,save_object,check_folder_contents,load_object
+from shipment_pricing.utils.main_utils import read_yaml_file,load_numpy_array_data,save_object,check_folder_contents,load_object
 from sklearn.ensemble import RandomForestRegressor
-from src.shipment_pricing.entity.config_entity import ModelTrainingConfig
-from src.shipment_pricing.entity.artifact_entity import ModelTrainerArtifact,DataTransformationArtifact
-from src.shipment_pricing.exception.exception import ApplicationException
-from src.shipment_pricing.logger.logging import logging
-from src.shipment_pricing.entity.config_entity import SavedModelConfig
-from src.shipment_pricing.constant import *
+from shipment_pricing.entity.config_entity import ModelTrainingConfig
+from shipment_pricing.entity.artifact_entity import ModelTrainerArtifact,DataTransformationArtifact
+from shipment_pricing.exception.exception import ApplicationException
+from shipment_pricing.logger.logging import logging
+from shipment_pricing.entity.config_entity import SavedModelConfig
+from shipment_pricing.constant import *
 import optuna
 from sklearn.metrics import r2_score
 import sys,yaml

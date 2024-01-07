@@ -19,8 +19,8 @@ setup(
     author="Hitesh Nimbalkar",
     author_email="nimbalkarhitesh@gmail.com",
     description="ML Regression",
-    packages=find_packages(where="src"),
     package_dir={"": "src"},
+    packages=find_packages(where="src"),
     install_requires=get_requirements(),
     classifiers=[
         "License :: OSI Approved :: MIT License",

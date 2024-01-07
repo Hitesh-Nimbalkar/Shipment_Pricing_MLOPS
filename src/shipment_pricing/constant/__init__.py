@@ -1,1 +1,1 @@
-from src.shipment_pricing.constant.constant import *
+from shipment_pricing.constant.constant import *

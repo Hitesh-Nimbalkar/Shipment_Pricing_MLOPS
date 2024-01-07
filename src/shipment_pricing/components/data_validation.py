@@ -1,13 +1,13 @@
 import os  
 import sys 
-from src.shipment_pricing.entity.config_entity import DataIngestionConfig,DataValidationConfig
-from src.shipment_pricing.entity.artifact_entity import DataIngestionArtifact,DataValidationArtifact
-from src.shipment_pricing.exception.exception import ApplicationException
-from src.shipment_pricing.logger.logging import logging
-from src.shipment_pricing.utils.main_utils import read_yaml_file,write_yaml_file,add_dict_to_yaml
-from src.shipment_pricing.entity.raw_data_validation import IngestedDataValidation
+from shipment_pricing.entity.config_entity import DataIngestionConfig,DataValidationConfig
+from shipment_pricing.entity.artifact_entity import DataIngestionArtifact,DataValidationArtifact
+from shipment_pricing.exception.exception import ApplicationException
+from shipment_pricing.logger.logging import logging
+from shipment_pricing.utils.main_utils import read_yaml_file,write_yaml_file,add_dict_to_yaml
+from shipment_pricing.entity.raw_data_validation import IngestedDataValidation
 import shutil
-from src.shipment_pricing.constant import *
+from shipment_pricing.constant import *
 
 class DataValidation:
     def __init__(self,data_validation_config:DataValidationConfig,

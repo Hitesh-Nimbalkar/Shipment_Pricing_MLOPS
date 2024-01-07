@@ -2,12 +2,12 @@ import os
 import sys
 import pandas as pd
 import numpy as np
-from src.shipment_pricing.logger.logging import logging
-from src.shipment_pricing.exception.exception import ApplicationException
-from src.shipment_pricing.entity.artifact_entity import *
-from src.shipment_pricing.entity.config_entity import *
-from src.shipment_pricing.utils.main_utils import read_yaml_file,save_data,save_object,save_numpy_array_data,create_yaml_file_numerical_columns,create_yaml_file_categorical_columns_from_dataframe
-from src.shipment_pricing.constant.constant import *
+from shipment_pricing.logger.logging import logging
+from shipment_pricing.exception.exception import ApplicationException
+from shipment_pricing.entity.artifact_entity import *
+from shipment_pricing.entity.config_entity import *
+from shipment_pricing.utils.main_utils import read_yaml_file,save_data,save_object,save_numpy_array_data,create_yaml_file_numerical_columns,create_yaml_file_categorical_columns_from_dataframe
+from shipment_pricing.constant.constant import *
 from sklearn.pipeline import Pipeline
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import Pipeline

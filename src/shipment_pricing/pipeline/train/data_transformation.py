@@ -1,11 +1,11 @@
 
 import uuid
-from src.shipment_pricing.entity.config_entity import *
-from src.shipment_pricing.exception import ApplicationException
-from src.shipment_pricing.utils.main_utils import read_yaml_file,write_yaml_file,add_dict_to_yaml
-from src.shipment_pricing.entity.config_entity import *
-from src.shipment_pricing.entity.artifact_entity import *
-from src.shipment_pricing.components.data_transformation import DataTransformation
+from shipment_pricing.entity.config_entity import *
+from shipment_pricing.exception import ApplicationException
+from shipment_pricing.utils.main_utils import read_yaml_file,write_yaml_file,add_dict_to_yaml
+from shipment_pricing.entity.config_entity import *
+from shipment_pricing.entity.artifact_entity import *
+from shipment_pricing.components.data_transformation import DataTransformation
 import  sys
 from collections import namedtuple
 

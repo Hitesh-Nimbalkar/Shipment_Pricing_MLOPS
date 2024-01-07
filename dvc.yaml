@@ -1,0 +1,51 @@
+stages:
+  data_ingestion_stage:
+    cmd: python src/shipment_pricing/pipeline/train/data_ingestion.py
+    deps:
+      - src/shipment_pricing/entity/config_entity.py
+      - src/shipment_pricing/entity/artifact_entity.py
+      - src/shipment_pricing/components/data_ingestion.py
+      - config/config.yaml
+      - src/shipment_pricing/pipeline/train/data_ingestion.py
+    outs:
+      - artifact/data_ingestion/
+
+  data_validation_stage:
+    cmd: python src/shipment_pricing/pipeline/train/data_validation.py
+    deps:
+      - src/shipment_pricing/entity/config_entity.py
+      - src/shipment_pricing/components/data_validation.py
+      - config/config.yaml
+      - src/shipment_pricing/pipeline/train/data_validation.py
+      - artifact/data_ingestion/
+    outs:
+      - artifact/data_validation/
+
+  data_transformation_stage:
+    cmd: python src/shipment_pricing/pipeline/train/data_transformation.py
+    deps:
+      - src/shipment_pricing/components/data_transformation.py
+      - config/config.yaml
+      - src/shipment_pricing/pipeline/train/data_transformation.py
+      - artifact/data_validation/
+    outs:
+      - artifact/data_transformation/
+      - preprocessor_dir/
+
+  model_trainer_stage:
+    cmd: python src/shipment_pricing/pipeline/train/model_trainer.py
+    deps:
+      - src/shipment_pricing/components/model_trainer.py
+      - config/config.yaml
+      - src/shipment_pricing/pipeline/train/05_model_trainer.py
+      - artifact/data_transformation/
+      - params.yaml
+    params:
+      - parameters.min_samples_split
+      - parameters.max_depth
+      - parameters.n_estimators
+      - Experiment
+      - Run_id
+    outs:
+      - artifact/model_training/
+      - Saved_model/

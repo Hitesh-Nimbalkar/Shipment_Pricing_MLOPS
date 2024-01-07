@@ -1,11 +1,11 @@
 import os,sys
-from src.shipment_pricing.constant import *
-from src.shipment_pricing.entity.config_entity import DataIngestionConfig
-from src.shipment_pricing.entity.artifact_entity import DataIngestionArtifact
-from src.shipment_pricing.data_access.mongo_data import get_collection_as_dataframe
-from src.shipment_pricing.utils.main_utils import read_yaml_file
-from src.shipment_pricing.logger.logging import logging
-from src.shipment_pricing.exception.exception import ApplicationException
+from shipment_pricing.constant import *
+from shipment_pricing.entity.config_entity import DataIngestionConfig
+from shipment_pricing.entity.artifact_entity import DataIngestionArtifact
+from shipment_pricing.data_access.mongo_data import get_collection_as_dataframe
+from shipment_pricing.utils.main_utils import read_yaml_file
+from shipment_pricing.logger.logging import logging
+from shipment_pricing.exception.exception import ApplicationException
 import pandas as pd
 import shutil
 from sklearn.model_selection import train_test_split

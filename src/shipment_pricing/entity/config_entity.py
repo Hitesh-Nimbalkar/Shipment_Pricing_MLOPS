@@ -1,8 +1,8 @@
 import os,sys
-from src.shipment_pricing.exception.exception import ApplicationException
-from src.shipment_pricing.logger.logging import logging
-from src.shipment_pricing.utils.main_utils import read_yaml_file
-from src.shipment_pricing.constant import *
+from shipment_pricing.exception.exception import ApplicationException
+from shipment_pricing.logger.logging import logging
+from shipment_pricing.utils.main_utils import read_yaml_file
+from shipment_pricing.constant import *
 
 
 

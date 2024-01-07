@@ -1,13 +1,12 @@
 
-import uuid
-from src.shipment_pricing.entity.config_entity import *
-from src.shipment_pricing.exception import ApplicationException
-from src.shipment_pricing.utils.main_utils import read_yaml_file,write_yaml_file,add_dict_to_yaml
-from src.shipment_pricing.entity.config_entity import *
-from src.shipment_pricing.entity.artifact_entity import *
-from src.shipment_pricing.components.data_validation import DataValidation
+from shipment_pricing.entity.config_entity import *
+from shipment_pricing.exception import ApplicationException
+from shipment_pricing.utils.main_utils import read_yaml_file,write_yaml_file,add_dict_to_yaml
+from shipment_pricing.entity.config_entity import *
+from shipment_pricing.entity.artifact_entity import *
+from shipment_pricing.components.data_validation import DataValidation
 import  sys
-from collections import namedtuple
+
 
 
 
@@ -39,4 +38,4 @@ class data_validation():
         
         
 if __name__ == '__main__':
-    data_transformation()
+    data_validation()

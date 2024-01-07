@@ -1,7 +1,7 @@
 import pandas as pd
 import logging
-from src.shipment_pricing.exception.exception import ApplicationException
-from src.shipment_pricing.data_access.mongo_access import mongo_client
+from shipment_pricing.exception.exception import ApplicationException
+from shipment_pricing.data_access.mongo_access import mongo_client
 import sys
 
 def get_collection_as_dataframe(database_name: str, collection_name: str) -> pd.DataFrame:

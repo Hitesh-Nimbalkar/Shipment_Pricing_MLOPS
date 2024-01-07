@@ -1,12 +1,12 @@
 
-from src.shipment_pricing.constant import *
-from src.shipment_pricing.exception.exception import ApplicationException
-from src.shipment_pricing.entity.config_entity import *
-from src.shipment_pricing.entity.artifact_entity import *
-from src.shipment_pricing.components.data_ingestion import DataIngestion
-from src.shipment_pricing.components.data_validation import DataValidation
-from src.shipment_pricing.components.data_transformation import DataTransformation
-from src.shipment_pricing.components.model_training import ModelTrainer
+from shipment_pricing.constant import *
+from shipment_pricing.exception.exception import ApplicationException
+from shipment_pricing.entity.config_entity import *
+from shipment_pricing.entity.artifact_entity import *
+from shipment_pricing.components.data_ingestion import DataIngestion
+from shipment_pricing.components.data_validation import DataValidation
+from shipment_pricing.components.data_transformation import DataTransformation
+from shipment_pricing.components.model_training import ModelTrainer
 import  sys
 
 

@@ -1,7 +1,7 @@
-from src.shipment_pricing.exception.exception  import ApplicationException
-from src.shipment_pricing.logger.logging import logging
+from shipment_pricing.exception.exception  import ApplicationException
+from shipment_pricing.logger.logging import logging
 import os, sys
-from src.shipment_pricing.utils.main_utils import read_yaml_file
+from shipment_pricing.utils.main_utils import read_yaml_file
 import pandas as pd
 import collections
 import yaml

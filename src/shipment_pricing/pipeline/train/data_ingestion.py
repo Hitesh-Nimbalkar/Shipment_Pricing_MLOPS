@@ -1,8 +1,8 @@
-from src.shipment_pricing.exception.exception import ApplicationException
-from src.shipment_pricing.utils.main_utils import write_yaml_file
-from src.shipment_pricing.entity.config_entity import *
-from src.shipment_pricing.entity.artifact_entity import *
-from src.shipment_pricing.components.data_ingestion import DataIngestion
+from shipment_pricing.exception.exception import ApplicationException
+from shipment_pricing.utils.main_utils import write_yaml_file
+from shipment_pricing.entity.config_entity import *
+from shipment_pricing.entity.artifact_entity import *
+from shipment_pricing.components.data_ingestion import DataIngestion
 import  sys
 
 
