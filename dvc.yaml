@@ -30,7 +30,7 @@ stages:
       - artifact/data_validation/
     outs:
       - artifact/data_transformation/
-      - preprocessor_dir/
+      - preprocessing_dir/
 
   model_trainer_stage:
     cmd: python src/shipment_pricing/pipeline/train/model_trainer.py

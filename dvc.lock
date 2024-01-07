@@ -1,0 +1,92 @@
+schema: '2.0'
+stages:
+  data_ingestion_stage:
+    cmd: python src/shipment_pricing/pipeline/train/data_ingestion.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: 83072ce1221afc5a6dbcc89fe55df138
+      size: 1365
+    - path: src/shipment_pricing/components/data_ingestion.py
+      hash: md5
+      md5: 9af3814e892bd02892c3b599eb1c6358
+      size: 6064
+    - path: src/shipment_pricing/entity/artifact_entity.py
+      hash: md5
+      md5: 25812aa8d40cffc66789b70720adf7f3
+      size: 590
+    - path: src/shipment_pricing/entity/config_entity.py
+      hash: md5
+      md5: 8f1b7a2ae5b8c863d9c98a6c99f3f9f3
+      size: 5048
+    - path: src/shipment_pricing/pipeline/train/data_ingestion.py
+      hash: md5
+      md5: 40a683178911b74ae209104db48f5ee3
+      size: 1347
+    outs:
+    - path: artifact/data_ingestion/
+      hash: md5
+      md5: b8ce6838d7bad53916bf82487f702e3e.dir
+      size: 23051184
+      nfiles: 4
+  data_validation_stage:
+    cmd: python src/shipment_pricing/pipeline/train/data_validation.py
+    deps:
+    - path: artifact/data_ingestion/
+      hash: md5
+      md5: b8ce6838d7bad53916bf82487f702e3e.dir
+      size: 23051184
+      nfiles: 4
+    - path: config/config.yaml
+      hash: md5
+      md5: 83072ce1221afc5a6dbcc89fe55df138
+      size: 1365
+    - path: src/shipment_pricing/components/data_validation.py
+      hash: md5
+      md5: 91bf322d8ed41500d78da4bc2a2b40a8
+      size: 9020
+    - path: src/shipment_pricing/entity/config_entity.py
+      hash: md5
+      md5: 8f1b7a2ae5b8c863d9c98a6c99f3f9f3
+      size: 5048
+    - path: src/shipment_pricing/pipeline/train/data_validation.py
+      hash: md5
+      md5: ef641019c59352541ceec669490c0055
+      size: 1671
+    outs:
+    - path: artifact/data_validation/
+      hash: md5
+      md5: 1c87647030c5dd6066791e993b90121b.dir
+      size: 7608882
+      nfiles: 2
+  data_transformation_stage:
+    cmd: python src/shipment_pricing/pipeline/train/data_transformation.py
+    deps:
+    - path: artifact/data_validation/
+      hash: md5
+      md5: 1c87647030c5dd6066791e993b90121b.dir
+      size: 7608882
+      nfiles: 2
+    - path: config/config.yaml
+      hash: md5
+      md5: 83072ce1221afc5a6dbcc89fe55df138
+      size: 1365
+    - path: src/shipment_pricing/components/data_transformation.py
+      hash: md5
+      md5: d02865361acf583df46f45ba191675a0
+      size: 24021
+    - path: src/shipment_pricing/pipeline/train/data_transformation.py
+      hash: md5
+      md5: 87c8b25973dd51f8017fb0b80c91168c
+      size: 1896
+    outs:
+    - path: artifact/data_transformation/
+      hash: md5
+      md5: 9dc81f160edc5ab6ad1e680a543de0d3.dir
+      size: 9044639
+      nfiles: 6
+    - path: preprocessing_dir/
+      hash: md5
+      md5: 1a45bf3991382de10af4284ad2887d13.dir
+      size: 4127
+      nfiles: 2

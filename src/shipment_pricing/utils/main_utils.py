@@ -1,10 +1,11 @@
 import yaml
-from src.shipment_pricing.exception.exception import ApplicationException
-from src.shipment_pricing.logger.logging import logging
+from shipment_pricing.exception.exception import ApplicationException
+from shipment_pricing.logger.logging import logging
 import os,sys
 import numpy as np
 import dill
 import pandas as pd
+from dataclasses import dataclass, asdict
 
 
 def write_yaml_file(file_path:str, data:dict = None):
@@ -15,6 +16,13 @@ def write_yaml_file(file_path:str, data:dict = None):
                 yaml.dump_all(data, f)
     except Exception as e:
         raise ApplicationException(e,sys) from e
+    
+def write_yaml_file_dvc(obj, file_path, label):
+    data_dict = asdict(obj)
+    data = {label: data_dict}
+
+    with open(file_path, 'w') as file:
+        yaml.dump(data, file, default_flow_style=False)
 
 def read_yaml_file(file_path:str)->dict:
     """
@@ -139,6 +147,28 @@ def add_dict_to_yaml(file_path, new_data):
         print("Data added successfully.")
     except Exception as e:
         print("An error occurred:", e)
+        
+def add_dict_to_yaml_dvc(file_path, new_data, label):
+    try:
+        # Load the existing YAML data
+        with open(file_path, 'r') as file:
+            existing_data = yaml.safe_load(file) or {}
+
+        # Merge the existing data with the new dictionary data
+        existing_data[label] = asdict(new_data)
+
+        # Write the updated data back to the file
+        with open(file_path, 'w') as file:
+            yaml.dump(existing_data, file, default_flow_style=False)
+
+        print("Data added successfully.")
+    except Exception as e:
+        print("An error occurred:", e)
+
+
+        
+        
+
         
         
 def check_folder_contents(folder_path):

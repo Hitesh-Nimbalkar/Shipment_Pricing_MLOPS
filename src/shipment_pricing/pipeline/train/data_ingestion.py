@@ -1,5 +1,5 @@
 from shipment_pricing.exception.exception import ApplicationException
-from shipment_pricing.utils.main_utils import write_yaml_file
+from shipment_pricing.utils.main_utils import write_yaml_file_dvc
 from shipment_pricing.entity.config_entity import *
 from shipment_pricing.entity.artifact_entity import *
 from shipment_pricing.components.data_ingestion import DataIngestion
@@ -16,7 +16,7 @@ class data_ingestion():
             data_ingestion = DataIngestion(data_ingestion_config=DataIngestionConfig(self.training_pipeline_config))
             data_ingestion_artifact=data_ingestion.initiate_data_ingestion()
             
-            write_yaml_file(file_path=ARTIFACT_ENTITY_YAML_FILE_PATH ,data=data_ingestion_artifact)
+            write_yaml_file_dvc(file_path=ARTIFACT_ENTITY_YAML_FILE_PATH ,obj=data_ingestion_artifact,label='data_ingestion')
             
             
         except Exception as e:

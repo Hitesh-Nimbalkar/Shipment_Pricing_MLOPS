@@ -17,4 +17,5 @@ geopandas
 statsmodels
 optuna
 dvc
+dill
 -e .
