@@ -141,3 +141,5 @@ dmypy.json
 .project_artifact/
 .mlruns/
 .params.yaml/
+.preprocessor/
+.batch_prediction/

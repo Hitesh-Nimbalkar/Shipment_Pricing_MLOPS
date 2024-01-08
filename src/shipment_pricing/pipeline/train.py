@@ -48,7 +48,7 @@ class Pipeline():
             raise ApplicationException(e,sys) from e
         
         
-    def start_model_training(self,data_transformation_artifact: DataTransformationArtifact) -> paramOptmizeArtifact:
+    def start_model_training(self,data_transformation_artifact: DataTransformationArtifact) -> ParamOptimzeArtifact:
         try:
             param_optimise = ParamOptimize(data_transformation_artifact=data_transformation_artifact)   
             

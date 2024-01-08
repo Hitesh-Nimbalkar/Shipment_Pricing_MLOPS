@@ -25,8 +25,70 @@ numerical_columns = transformation_yaml[NUMERICAL_COLUMN_KEY]
 categorical_columns=transformation_yaml[CATEGORICAL_COLUMNS]
 drop_columns=transformation_yaml[DROP_COLUMNS]
 
+class Freight_weight_cleaner:
+    def __init__(self, data_frame):
+        self.X = data_frame
 
+    def change_to_number(self, freight_cost_usd):
+        regex = {"id_number": ":\d*"}
+        match = re.search(regex['id_number'], freight_cost_usd, re.IGNORECASE)
+        
+        if match:
+            id = match.group(0).replace(':', '')
+            filtered = self.X.query("ID == " + id)
+            
+            if not filtered.empty:
+                return filtered['Freight_Cost_(USD)'].iloc[0]
+        
+        return freight_cost_usd
 
+    def convert_to_number(self, weight):
+        regex = {"id_number": ":\d*"}
+        match = re.search(regex['id_number'], weight, re.IGNORECASE)
+        
+        if match:
+            id = match.group(0).replace(':', '')
+            filtered = self.X.query("ID == " + id)
+            
+            if not filtered.empty:
+                return filtered['Weight_(Kilograms)'].iloc[0]
+        
+        return weight
+
+    def clean_data(self):
+        # Apply the functions to clean columns
+        self.X['Freight_Cost_USD_Clean'] = self.X['Freight_Cost_(USD)'].apply(self.change_to_number)
+        self.X['Weight_Kilograms_Clean'] = self.X['Weight_(Kilograms)'].apply(self.convert_to_number)
+
+        print("Weight and freight completed")
+
+        # Identify indexes with specific conditions
+        freight_cost_indexes = self.X.index[(self.X['Freight_Cost_USD_Clean'] == 'Freight Included in Commodity Cost') | (self.X['Freight_Cost_USD_Clean'] == 'Invoiced Separately')].tolist()
+        weight_indexes = self.X.index[self.X['Weight_Kilograms_Clean'] == 'Weight Captured Separately'].tolist()
+        shipment_indexes = self.X.index[self.X['Shipment_Mode'] == 'no_value'].tolist()
+
+        print("Freight_Cost_USD_Clean_indexes:", len(freight_cost_indexes))
+        print("Weight_Kilograms_Clean_indexes:", len(weight_indexes))
+        print("Shipment_Mode indexes:         ", len(shipment_indexes))
+
+        # Combine indexes and drop rows
+        indexes = list(set(freight_cost_indexes + weight_indexes + shipment_indexes))
+        print("Indexes:", len(indexes))
+        self.X = self.X.drop(indexes)
+
+        # Drop rows where any value in the specified column is a string
+        self.X = self.X[~self.X['Freight_Cost_USD_Clean'].str.contains('See')]
+        self.X = self.X[~self.X['Weight_Kilograms_Clean'].str.contains('See')]
+
+        self.X["Freight_Cost_USD"] = self.X["Freight_Cost_USD_Clean"].astype("float")
+        self.X["Weight_Kilograms"] = self.X["Weight_Kilograms_Clean"].astype("float")
+
+        self.X.drop(['Weight_(Kilograms)', 'Freight_Cost_(USD)'], axis=1, inplace=True)
+        self.X.drop(['Freight_Cost_USD_Clean', 'Weight_Kilograms_Clean'], axis=1, inplace=True)
+
+        logging.info("Weight and Freight Cost Modification complete")
+
+        return self.X
 
 class Feature_Engineering(BaseEstimator, TransformerMixin):
     
@@ -154,68 +216,6 @@ class Feature_Engineering(BaseEstimator, TransformerMixin):
         logging.info(" Editing Column Lables ......")
         X=self.replace_spaces_with_underscore(X)
         
-        
-        logging.info("Working on Freight_Cost and Weight feature ....")
-        
-        def change_to_number(freight_cost_usd):
-            regex = {"id_number": ":\d*"}
-            match = re.search(regex['id_number'], freight_cost_usd, re.IGNORECASE)
-            
-            if match:
-                id = match.group(0).replace(':', '')
-                filtered = X.query("ID == " + id)
-                
-                if not filtered.empty:
-                    return filtered['Freight_Cost_(USD)'].iloc[0]
-            
-            return freight_cost_usd
-
-        def convert_to_number(weight):
-            regex = {"id_number": ":\d*"}
-            match = re.search(regex['id_number'], weight, re.IGNORECASE)
-            
-            if match:
-                id = match.group(0).replace(':', '')
-                filtered = X.query("ID == " + id)
-                
-                if not filtered.empty:
-                    return filtered['Weight_(Kilograms)'].iloc[0]
-            
-            return weight
-
-        # Apply the functions to clean columns
-        X['Freight_Cost_USD_Clean'] = X['Freight_Cost_(USD)'].apply(change_to_number)
-        X['Weight_Kilograms_Clean'] = X['Weight_(Kilograms)'].apply(convert_to_number)
-
-        print("Weight and freight completed")
-
-        # Identify indexes with specific conditions
-        freight_cost_indexes = X.index[(X['Freight_Cost_USD_Clean'] == 'Freight Included in Commodity Cost') | (X['Freight_Cost_USD_Clean'] == 'Invoiced Separately')].tolist()
-        weight_indexes = X.index[X['Weight_Kilograms_Clean'] == 'Weight Captured Separately'].tolist()
-        shipment_indexes = X.index[X['Shipment_Mode'] == 'no_value'].tolist()
-
-        print("Freight_Cost_USD_Clean_indexes:", len(freight_cost_indexes))
-        print("Weight_Kilograms_Clean_indexes:", len(weight_indexes))
-        print("Shipment_Mode indexes:         ", len(shipment_indexes))
-
-        # Combine indexes and drop rows
-        indexes = list(set(freight_cost_indexes + weight_indexes + shipment_indexes))
-        print("Indexes:", len(indexes))
-        X = X.drop(indexes)
-        
-        # Drop rows where any value in the specified column is a string
-        X = X[~X['Freight_Cost_USD_Clean'].str.contains('See')]
-        X = X[~X['Weight_Kilograms_Clean'].str.contains('See')]
-    
-        X["Freight_Cost_USD"]=X["Freight_Cost_USD_Clean"].astype("float")
-        X["Weight_Kilograms"]=X["Weight_Kilograms_Clean"].astype("float")
-        
-        X.drop(['Weight_(Kilograms)','Freight_Cost_(USD)'],axis=1,inplace=True)
-        X.drop(['Freight_Cost_USD_Clean','Weight_Kilograms_Clean'],axis=1,inplace=True)
-
-        logging.info("Weight and Freight Cost Modification complete  ")
-        
-        
         logging.info(" Replacing nan with median in column : Line_Item_Insurance_(USD)  ")
         X=self.replace_nan_with_median(X,column_label="Line_Item_Insurance_(USD)")
         
@@ -239,10 +239,14 @@ class Feature_Engineering(BaseEstimator, TransformerMixin):
         logging.info("----------------")
 
         logging.info(" Removing Outliers .... ")
-        # Removing Outliers
-        X=self.outlier_removal(X,numerical_columns=numerical_columns)
         
-        logging.info(" Outliers Removed ")
+        try:
+            # Removing Outliers
+            X = self.outlier_removal(X, numerical_columns=numerical_columns)
+            
+            logging.info(" Outliers Removed ")
+        except Exception as e:
+            logging.error(f"An error occurred during outlier removal: {str(e)}")
         
         return X
     
@@ -375,6 +379,8 @@ class DataTransformation:
             train_file_path = self.data_validation_artifact.validated_train_path
             test_file_path = self.data_validation_artifact.validated_test_path
             logging.info(f"Loading training and test data as pandas dataframe.")
+            
+            
   
             train_df = pd.read_csv(train_file_path)
             test_df = pd.read_csv(test_file_path)
@@ -393,6 +399,14 @@ class DataTransformation:
             col = numerical_columns + categorical_columns+target_column
             # All columns 
             logging.info("All columns: {}".format(col))
+            
+            # Cleaning Freight and Weight columns
+            data_preprocess = Freight_weight_cleaner(train_df)
+            train_df=data_preprocess.clean_data()
+
+            
+            data_preprocess = Freight_weight_cleaner(test_df)
+            test_df=data_preprocess.clean_data()
             
             
             # Feature Engineering 
@@ -506,7 +520,7 @@ class DataTransformation:
             logging.info("Saving Feature Engineering Object")
             feature_engineering_object_file_path = self.data_transformation_config.feature_engineering_object_file_path
             save_object(file_path = feature_engineering_object_file_path,obj = fe_obj)
-            save_object(file_path=os.path.join(ROOT_DIR,DATA_TRANSFORMATION_PREPROCESSING_DIR_KEY,
+            save_object(file_path=os.path.join(ROOT_DIR,config_data[DATA_TRANSFORMATION_CONFIG_KEY][DATA_TRANSFORMATION_PREPROCESSING_DIR_KEY],
                                  os.path.basename(feature_engineering_object_file_path)),obj=fe_obj)
 
 
@@ -514,7 +528,7 @@ class DataTransformation:
             logging.info("Saving  Object")
             preprocessor_file_path = self.data_transformation_config.preprocessor_file_object_file_path
             save_object(file_path = preprocessor_file_path,obj = preprocessor)
-            save_object(file_path=os.path.join(ROOT_DIR,DATA_TRANSFORMATION_PREPROCESSING_DIR_KEY,
+            save_object(file_path=os.path.join(ROOT_DIR,config_data[DATA_TRANSFORMATION_CONFIG_KEY][DATA_TRANSFORMATION_PREPROCESSING_DIR_KEY],
                                  os.path.basename(preprocessor_file_path)),obj=preprocessor)
 
             data_transformation_artifact = DataTransformationArtifact(

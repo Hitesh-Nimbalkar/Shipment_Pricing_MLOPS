@@ -29,7 +29,7 @@ data_transformation_config:
   transformed_dir: transformed_data
   transformed_train_dir: train
   transformed_test_dir: test
-  preprocessing_dir: preprocessed
+  preprocessing_dir: preprocessor
   preprocessed_object_file_name: preprocessed.pkl
   feature_eng_file: fea_eng.pkl
 
@@ -47,7 +47,7 @@ saved_model_config:
   model_report : report.yaml
 
 Prediction:
-  prediction_object_directory: prediction_files
+  prediction_object_directory: preprocessor
   batch_prediction:
     directory: batch_prediction
     prediction_folder: prediction
