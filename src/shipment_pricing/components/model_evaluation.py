@@ -139,8 +139,24 @@ class ModelEvaluation:
         save_object(file_path=saved_model_path,obj=best_model)
         logging.info(f"Best model saved to: {saved_model_path}")
         
-        
     def initiate_model_evaluation(self) -> ModelEvaluationArtifact:
+
+            logging.info(" Model Evaluation Started ")
+            
+            
+            # Saved Model files
+            saved_model_path = self.saved_model_config.saved_model_object_path
+            saved_model_report_path=self.saved_model_config.saved_model_report_path
+            
+            
+            model_evaluation_artifact=ModelEvaluationArtifact(message="Model Evaluation complete",
+                                                            model_report=saved_model_path,
+                                                            model_file_path=saved_model_report_path)
+
+            return model_evaluation_artifact
+        
+        
+    def initiate_model_evaluation_local(self) -> ModelEvaluationArtifact:
         try:
             logging.info(" Model Evaluation Started ")
             
@@ -181,6 +197,10 @@ class ModelEvaluation:
                                                             model_file_path=saved_model_report_path)
 
             return model_evaluation_artifact
+        
+        
+        
+ 
             
         except Exception as e:
             logging.error("Error occurred during model evaluation!")

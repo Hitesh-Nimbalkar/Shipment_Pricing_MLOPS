@@ -7,16 +7,16 @@ pymongo
 python-dotenv
 uvicorn
 websockets
-xgboost
-streamlit
+#xgboost
+#streamlit
 scipy
 numpy
 seaborn
 scikit-learn
-geopandas
+#geopandas
 statsmodels
 optuna
 dvc
 dill
-mlflow
+#mlflow
 -e .

@@ -1,0 +1,8 @@
+Experiment: Experiment_01
+Model_name: Random Forest Regression
+R2_score: '0.8391921297857898'
+Run_name: Trial
+parameters:
+  max_depth: 25
+  min_samples_split: 12
+  n_estimators: 1000
