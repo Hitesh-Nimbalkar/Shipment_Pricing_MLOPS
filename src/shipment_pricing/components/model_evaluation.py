@@ -77,12 +77,12 @@ class Experiments_evaluation:
         # Create a dictionary with the extracted information
         report_data = {
             "Experiment": self.experiment_name,
-            "Experiment_id": run.info.experiment_id,
+          #  "Experiment_id": run.info.experiment_id,
             "Run_name": run_name,
             "Model_name": model_name,
             "R2_score": r2_score,
-            "Run_id": self.best_model_run_id,
-            "Parameters": parameters
+          #  "Run_id": self.best_model_run_id,
+            "parameters": parameters
         }
 
         return report_data, loaded_model
