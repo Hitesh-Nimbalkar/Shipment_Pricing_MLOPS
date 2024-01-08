@@ -1,0 +1,11 @@
+.venv/
+.application_logs/
+.artifact/
+.build/
+.params.yaml
+.EDA/
+.venv 
+aplications_logs
+artifact
+buildsdist
+params.yaml
