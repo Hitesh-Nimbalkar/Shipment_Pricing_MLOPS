@@ -41,6 +41,17 @@ model_trainer_config:
     Run_name: Trial
     Experiment: Experiment_01
 
+param_optimize_config:
+  param_optimize_dir: param_optimize_dir
+  model_object: model.pkl
+  model_report: report.yaml
+
+model_eval_config:
+  model_eval_dir: model_evaluation
+  model_object: model.pkl
+  model_report: report.yaml
+
+
 saved_model_config:
   directory: Saved_model
   model_object: model.pkl

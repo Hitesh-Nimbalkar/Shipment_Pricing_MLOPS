@@ -52,6 +52,9 @@ stages:
       - parameters.max_depth
       - parameters.min_samples_split
       - parameters.n_estimators
+    outs:
+      - artifact/param_optimize_dir/
+
 
   model_evaluation:
     cmd: python src/shipment_pricing/pipeline/dvc_pipeline/model_evaluation.py
@@ -59,5 +62,15 @@ stages:
       - src/shipment_pricing/components/model_evaluation.py
       - config/
       - src/shipment_pricing/pipeline/dvc_pipeline/model_evaluation.py
+      - artifact/param_optimize_dir/
+    outs:
+      - artifact/model_evaluation/
 
+  model_pusher:
+    cmd: python src/shipment_pricing/pipeline/dvc_pipeline/model_pusher.py
+    deps:
+      - src/shipment_pricing/components/model_pusher.py
+      - config/
+      - src/shipment_pricing/pipeline/dvc_pipeline/model_pusher.py
+      - artifact/model_evaluation/
 

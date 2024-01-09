@@ -5,8 +5,8 @@ stages:
     deps:
     - path: config/
       hash: md5
-      md5: c297276d74079e58551f0c7021ce5abf.dir
-      size: 4707
+      md5: 8f061500987819df30951ff2fd02aa13.dir
+      size: 4947
       nfiles: 5
     - path: src/shipment_pricing/components/data_ingestion.py
       hash: md5
@@ -14,12 +14,12 @@ stages:
       size: 6064
     - path: src/shipment_pricing/entity/artifact_entity.py
       hash: md5
-      md5: d4a6e5e6580ab5676594bd4dd9ea6fcd
-      size: 788
+      md5: 865435f36cac359c025976897cefbdd9
+      size: 847
     - path: src/shipment_pricing/entity/config_entity.py
       hash: md5
-      md5: fff0888168389fb19119618737e09c4b
-      size: 5561
+      md5: ac147c0da5295779b9757ec26a8a1686
+      size: 6327
     - path: src/shipment_pricing/pipeline/dvc_pipeline/data_ingestion.py
       hash: md5
       md5: 40a683178911b74ae209104db48f5ee3
@@ -40,8 +40,8 @@ stages:
       nfiles: 4
     - path: config/
       hash: md5
-      md5: c297276d74079e58551f0c7021ce5abf.dir
-      size: 4707
+      md5: 8f061500987819df30951ff2fd02aa13.dir
+      size: 4947
       nfiles: 5
     - path: src/shipment_pricing/components/data_validation.py
       hash: md5
@@ -49,8 +49,8 @@ stages:
       size: 9020
     - path: src/shipment_pricing/entity/config_entity.py
       hash: md5
-      md5: fff0888168389fb19119618737e09c4b
-      size: 5561
+      md5: ac147c0da5295779b9757ec26a8a1686
+      size: 6327
     - path: src/shipment_pricing/pipeline/dvc_pipeline/data_validation.py
       hash: md5
       md5: ef641019c59352541ceec669490c0055
@@ -71,8 +71,8 @@ stages:
       nfiles: 2
     - path: config/
       hash: md5
-      md5: c297276d74079e58551f0c7021ce5abf.dir
-      size: 4707
+      md5: 8f061500987819df30951ff2fd02aa13.dir
+      size: 4947
       nfiles: 5
     - path: src/shipment_pricing/components/data_transformation.py
       hash: md5
@@ -98,13 +98,13 @@ stages:
       nfiles: 6
     - path: config/
       hash: md5
-      md5: c297276d74079e58551f0c7021ce5abf.dir
-      size: 4707
+      md5: 8f061500987819df30951ff2fd02aa13.dir
+      size: 4947
       nfiles: 5
     - path: src/shipment_pricing/components/model_training.py
       hash: md5
-      md5: f51582cc9fcb6678631d04b18448e0de
-      size: 12928
+      md5: a74beb081c07079b136adb183e03a5b7
+      size: 9090
     - path: src/shipment_pricing/pipeline/dvc_pipeline/model_training.py
       hash: md5
       md5: fd5ffec989fd88bf31abc10c305e80d8
@@ -112,43 +112,81 @@ stages:
     outs:
     - path: artifact/model_training/
       hash: md5
-      md5: 3399111ae1894f24177c863926e3623b.dir
-      size: 29838385
+      md5: c99d7d74353887816147764f29204f2e.dir
+      size: 22038317
       nfiles: 2
   param_optimisation_stage:
     cmd: python src/shipment_pricing/pipeline/dvc_pipeline/param_optimize.py
     deps:
     - path: config/
       hash: md5
-      md5: c297276d74079e58551f0c7021ce5abf.dir
-      size: 4707
+      md5: 8f061500987819df30951ff2fd02aa13.dir
+      size: 4947
       nfiles: 5
     - path: src/shipment_pricing/components/param_optimize.py
       hash: md5
-      md5: a0865aae275107d7dee7774c6afe1f88
-      size: 6107
+      md5: 0ef04ae3e5c402dc7f263d08912c2b37
+      size: 7478
     - path: src/shipment_pricing/pipeline/dvc_pipeline/param_optimize.py
       hash: md5
-      md5: 9a695b2f6787cfc413b58d768502988c
-      size: 2362
+      md5: 02319395139463385b29c13ede6d56b4
+      size: 2985
     params:
       params.yaml:
-        parameters.max_depth: 10
+        parameters.max_depth: 20
         parameters.min_samples_split: 2
-        parameters.n_estimators: 500
+        parameters.n_estimators: 50
+    outs:
+    - path: artifact/param_optimize_dir/
+      hash: md5
+      md5: 8a667377c7e80e1db47a63ea16c54f5f.dir
+      size: 2986710
+      nfiles: 2
   model_evaluation:
     cmd: python src/shipment_pricing/pipeline/dvc_pipeline/model_evaluation.py
     deps:
+    - path: artifact/param_optimize_dir/
+      hash: md5
+      md5: 8a667377c7e80e1db47a63ea16c54f5f.dir
+      size: 2986710
+      nfiles: 2
     - path: config/
       hash: md5
-      md5: c297276d74079e58551f0c7021ce5abf.dir
-      size: 4707
+      md5: 8f061500987819df30951ff2fd02aa13.dir
+      size: 4947
       nfiles: 5
     - path: src/shipment_pricing/components/model_evaluation.py
       hash: md5
-      md5: c3474b6ee5c93e2be836166123f17be2
-      size: 8343
+      md5: 3dbbcde87d127ba1c5b792ef1cf374d8
+      size: 11502
     - path: src/shipment_pricing/pipeline/dvc_pipeline/model_evaluation.py
       hash: md5
-      md5: 76ea2a58afb4d8620c793bb9a6b83749
-      size: 1684
+      md5: eb8e0ef93cce132ee5d28773a6c4a353
+      size: 1747
+    outs:
+    - path: artifact/model_evaluation/
+      hash: md5
+      md5: d751713988987e9331980363e24189ce.dir
+      size: 0
+      nfiles: 0
+  model_pusher:
+    cmd: python src/shipment_pricing/pipeline/dvc_pipeline/model_pusher.py
+    deps:
+    - path: artifact/model_evaluation/
+      hash: md5
+      md5: d751713988987e9331980363e24189ce.dir
+      size: 0
+      nfiles: 0
+    - path: config/
+      hash: md5
+      md5: 8f061500987819df30951ff2fd02aa13.dir
+      size: 4947
+      nfiles: 5
+    - path: src/shipment_pricing/components/model_pusher.py
+      hash: md5
+      md5: 087f34ca47acbca06ccfd98228d72227
+      size: 1272
+    - path: src/shipment_pricing/pipeline/dvc_pipeline/model_pusher.py
+      hash: md5
+      md5: 2b0112d3ad4ab1b45a087610b1223f31
+      size: 1757

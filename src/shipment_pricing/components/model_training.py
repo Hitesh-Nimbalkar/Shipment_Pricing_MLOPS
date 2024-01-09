@@ -4,14 +4,11 @@ from shipment_pricing.entity.config_entity import ModelTrainingConfig
 from shipment_pricing.entity.artifact_entity import ModelTrainerArtifact,DataTransformationArtifact
 from shipment_pricing.exception.exception import ApplicationException
 from shipment_pricing.logger.logging import logging
-from shipment_pricing.entity.config_entity import SavedModelConfig
 from shipment_pricing.constant import *
 import optuna
 from sklearn.metrics import r2_score
 import sys,yaml
 import pandas as pd
-import shutil
-import numpy as np
 
 class ModelOptimizer:
     def __init__(self, X_train, X_test, y_train, y_test, model_constructor, param_dict, n_trials=25):
@@ -108,12 +105,8 @@ class ModelTrainer :
             # Accessing config file paths 
             self.trained_model_path=self.model_training_config.model_object_file_path
             self.trained_model_report=self.model_training_config.model_report
-            
-            self.saved_model_config=SavedModelConfig()
-            self.saved_model_dir=self.saved_model_config.saved_model_dir
-            os.makedirs(self.saved_model_dir, exist_ok=True)
-            self.saved_model_config_key=self.saved_model_config.saved_model_config_key
-            
+  
+
             
             # Loading yaml Dtaa from model Training.yaml
             self.model_training_yaml=read_yaml_file(file_path=MODEL_TRAINING_CONFIG_PATH)
@@ -126,10 +119,6 @@ class ModelTrainer :
             # Create the directory if it doesn't exist
             os.makedirs(self.model_train_artifact_dir, exist_ok=True)
             
-            # Project Config Data 
-            self.config_data = read_yaml_file(CONFIG_FILE_PATH)
-            self.experiment=self.config_data[MODEL_TRAINING_CONFIG_KEY][MODEL_TRAINING_MLFLOW][MLFLOW_EXPERIMENT]
-            self.run_name=self.config_data[MODEL_TRAINING_CONFIG_KEY][MODEL_TRAINING_MLFLOW][MLFLOW_RUN_NAME]
             
             
         except Exception as e:
@@ -140,7 +129,7 @@ class ModelTrainer :
         # Creating a dictionary to store the model report information
         model_report = {
             'Experiment': experiment,
-            'Run_name': run_name,
+            'Run_name':run_name,
             'R2_score': str(r2),
             'parameters': best_params,
             'Model_name': model_label
@@ -189,8 +178,8 @@ class ModelTrainer :
             best_params, r2, best_model,model_label = model_training_instance.optimize_and_log()
             
             # Model Report
-            model_report=self.create_model_report(self.experiment,
-                                                    self.run_name,
+            model_report=self.create_model_report(EXPERIMENT,
+                                                    RUN_NAME,
                                                     best_params, 
                                                     r2, 
                                                     model_label
@@ -198,63 +187,13 @@ class ModelTrainer :
             # Saving Model Object and Model Report 
             self.save_model_and_report(best_model=best_model,
                                         model_report=model_report,
-                                        model_file_path=self.model_training_config.model_object_file_path,
-                                        report_file_path=self.model_training_config.model_report)
+                                        model_file_path=self.trained_model_path,
+                                        report_file_path=self.trained_model_report)
             
-            artifact_model_path=self.model_training_config.model_object_file_path
-            saved_directory_model=self.saved_model_config.saved_model_object_path
-            
-            artifact_model_report_path=self.model_training_config.model_report
-            saved_directory_model_report=self.saved_model_config.saved_model_report_path
-            
-            saved_model_directory=self.saved_model_dir
-            logging.info(f" Checking {saved_model_directory}")
-            flag=check_folder_contents(saved_model_directory)
-            
-            if not os.listdir(saved_model_directory):
-                # Copying Model and Report to saved model directory 
-                # Copying Model 
-                shutil.copy(artifact_model_path, saved_directory_model)
-                # Copying Report 
-                shutil.copy(artifact_model_report_path, saved_directory_model_report)
-                
-            else: 
-                saved_directory_model_report=self.saved_model_config.saved_model_report_path
-                logging.info(f" saved Report path{saved_directory_model_report} ")
-                saved_model_report=read_yaml_file(saved_directory_model_report)
-                saved_model_score=float(saved_model_report['R2_score'])
-                
-                logging.info(saved_model_report)
-                
-                artifact_model_score=r2
-                
-                if saved_model_score > artifact_model_score:
-                    # If the saved model score is higher than the artifact model score
-                    model_trainer_artifact = ModelTrainerArtifact(
-                        model_file_path=saved_directory_model,
-                        model_report=saved_directory_model_report
-                    )
-                    logging.info(f"Selected saved model for training as its score ({saved_model_score}) is higher than the artifact model score ({artifact_model_score})")
-                    
-                elif saved_model_score < artifact_model_score:
-                    # If the saved model score is lower than the artifact model score
-                    shutil.copy(artifact_model_path, saved_directory_model)
-                    # Copying Report
-                    shutil.copy(artifact_model_report_path, saved_directory_model_report)
-                    
-                    model_trainer_artifact = ModelTrainerArtifact(
-                        model_file_path=self.model_training_config.model_object_file_path,
-                        model_report=self.model_training_config.model_report
-                    )
-                    logging.info(f"Selected artifact model for training as its score ({artifact_model_score}) is higher than the saved model score ({saved_model_score})")
-                    
-                else:
-                    # If the saved model score is equal to the artifact model score
-                    model_trainer_artifact = ModelTrainerArtifact(
-                        model_file_path=saved_directory_model,
-                        model_report=saved_directory_model_report
-                    )
-                    logging.info(f"Selected saved model for training as its score ({saved_model_score}) is equal to the artifact model score")
+            model_trainer_artifact = ModelTrainerArtifact(
+                                    model_file_path=self.trained_model_path,
+                                    model_report=self.trained_model_report
+                                )
             
             return model_trainer_artifact
         except Exception as e:

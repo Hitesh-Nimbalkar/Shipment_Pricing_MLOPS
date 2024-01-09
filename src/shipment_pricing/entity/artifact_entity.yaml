@@ -15,11 +15,13 @@ data_validation_artifact:
   validated_train_path: G:\Resume_Projects\Regression\Shipment_MLOPS\artifact\data_validation\Train\train.csv
 model_evaluation:
   message: Model Evaluation complete
-  model_file_path: G:\Resume_Projects\Regression\Shipment_MLOPS\Saved_model\report.yaml
-  model_report: G:\Resume_Projects\Regression\Shipment_MLOPS\Saved_model\model.pkl
+  model_file_path: G:\Resume_Projects\Regression\Shipment_MLOPS\artifact\param_optimize_dir\model.pkl
+  model_report: G:\Resume_Projects\Regression\Shipment_MLOPS\artifact\param_optimize_dir\report.yaml
+model_pusher:
+  message: training pipeine Complete
 model_trainer:
-  model_file_path: G:\Resume_Projects\Regression\Shipment_MLOPS\Saved_model\model.pkl
-  model_report: G:\Resume_Projects\Regression\Shipment_MLOPS\Saved_model\report.yaml
+  model_file_path: G:\Resume_Projects\Regression\Shipment_MLOPS\artifact\model_training\model.pkl
+  model_report: G:\Resume_Projects\Regression\Shipment_MLOPS\artifact\model_training\report.yaml
 param_optimizer:
-  model_file_path: G:\Resume_Projects\Regression\Shipment_MLOPS\Saved_model\model.pkl
-  model_report: G:\Resume_Projects\Regression\Shipment_MLOPS\Saved_model\report.yaml
+  model_file_path: G:\Resume_Projects\Regression\Shipment_MLOPS\artifact\param_optimize_dir\model.pkl
+  model_report: G:\Resume_Projects\Regression\Shipment_MLOPS\artifact\param_optimize_dir\report.yaml

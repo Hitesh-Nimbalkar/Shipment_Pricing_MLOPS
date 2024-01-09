@@ -8,6 +8,8 @@ from shipment_pricing.components.data_validation import DataValidation
 from shipment_pricing.components.data_transformation import DataTransformation
 from shipment_pricing.components.model_training import ModelTrainer
 from shipment_pricing.components.param_optimize import ParamOptimize
+from shipment_pricing.components.model_evaluation import ModelEvaluation
+from shipment_pricing.components.model_pusher import Model_pusher
 import  sys
 
 
@@ -48,9 +50,11 @@ class Pipeline():
             raise ApplicationException(e,sys) from e
         
         
-    def start_model_training(self,data_transformation_artifact: DataTransformationArtifact) -> ParamOptimzeArtifact:
+    def param_optimize(self,data_transformation_artifact: DataTransformationArtifact,model_training_artifact:ModelTrainerArtifact) -> ParamOptimzeArtifact:
         try:
-            param_optimise = ParamOptimize(data_transformation_artifact=data_transformation_artifact)   
+            param_optimise = ParamOptimize(data_transformation_artifact=data_transformation_artifact,
+                                           param_optimize_config=Param_Optimize_Config(self.training_pipeline_config),
+                                           model_training_artifact=model_training_artifact)   
             
             logging.info("Param optmizer intiated")
 
@@ -59,7 +63,7 @@ class Pipeline():
             raise ApplicationException(e,sys) from e  
 
 
-    def start_param_optimise(self,data_transformation_artifact: DataTransformationArtifact) -> ModelTrainerArtifact:
+    def start_model_training(self,data_transformation_artifact: DataTransformationArtifact) -> ModelTrainerArtifact:
         try:
             model_trainer = ModelTrainer(model_training_config=ModelTrainingConfig(self.training_pipeline_config),
                                         data_transformation_artifact=data_transformation_artifact)   
@@ -69,6 +73,33 @@ class Pipeline():
             return model_trainer.start_model_training()
         except Exception as e:
             raise ApplicationException(e,sys) from e  
+        
+    def model_evaluation(self,param_optimize_artifact:ParamOptimzeArtifact):
+        try:
+            model_evaluation=ModelEvaluation(model_evaluation_config=ModelEvalConfig(self.training_pipeline_config),
+                                             param_optimize_artifact=param_optimize_artifact)
+            
+            logging.info(" Model Evaluating ....")
+            
+            return model_evaluation.initiate_model_evaluation()
+            
+            
+        except Exception as e:
+            raise ApplicationException(e,sys) from e          
+        
+        
+    def model_pusher(self,model_evaluation_artifact:ModelEvaluationArtifact):    
+        try:
+            model_pusher=Model_pusher(model_evaluation_artifact=model_evaluation_artifact)
+            
+            logging.info(" Model Evaluating ....")
+            
+            return model_pusher.start_model_pusher()
+            
+        
+        except Exception as e:
+            raise ApplicationException(e,sys) from e          
+            
 
 
     def run_pipeline(self):
@@ -86,8 +117,15 @@ class Pipeline():
                 model_trainer_artifact = self.start_model_training(data_transformation_artifact=data_transformation_artifact)
                 
                 # Param Optimize 
-                param_optimise_artifact=self.start_param_optimise(data_transformation_artifact=data_transformation_artifact)
-            
+                param_optimise_artifact=self.param_optimize(data_transformation_artifact=data_transformation_artifact,model_training_artifact=model_trainer_artifact)
+
+                # Model_evaluation 
+                model_evaluation_artifact = self.model_evaluation(param_optimize_artifact=param_optimise_artifact)
+                
+                # Model Pusher 
+                model_pusher_artifact= self.model_pusher(model_evaluation_artifact=model_evaluation_artifact)
+                
+                
             except Exception as e:
                 raise ApplicationException(e, sys) from e
             

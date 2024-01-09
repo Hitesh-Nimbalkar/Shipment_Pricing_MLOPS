@@ -27,11 +27,20 @@ class param_optimizer():
             transformed_train_path=data_transformation_artifact['transformed_train_file_path']
             
             
+
+            model_trainer_artifact=artifact['model_trainer']
+            artifact_model_path=model_trainer_artifact['model_file_path']
+            artifact_model_report_path=model_trainer_artifact['model_report']
+            
+            
             param_optimize = ParamOptimize( data_transformation_artifact=DataTransformationArtifact(feature_engineering_object_file_path=transform_object_path,
                                                                                                 transformed_train_file_path=transformed_train_path,
                                                                                                 test_target_file_path=target_test,
                                                                                                 train_target_file_path=target_train,
-                                                                                                transformed_test_file_path=transformed_test_path))   
+                                                                                                transformed_test_file_path=transformed_test_path),
+                                           param_optimize_config=Param_Optimize_Config(self.training_pipeline_config),
+                                           model_training_artifact=ModelTrainerArtifact(model_file_path=artifact_model_path,
+                                                                                        model_report=artifact_model_report_path))   
             param_optimize_artifact=param_optimize.optimizing_params()
             
             add_dict_to_yaml_dvc(file_path=ARTIFACT_ENTITY_YAML_FILE_PATH ,new_data=param_optimize_artifact,label='param_optimizer')

@@ -91,7 +91,22 @@ class SavedModelConfig:
         self.saved_model_object_path=os.path.join(self.saved_model_dir,self.saved_model_config_key[SAVED_MODEL_OBJECT])
         self.saved_model_report_path=os.path.join(self.saved_model_dir,self.saved_model_config_key[SAVED_MODEL_REPORT])
         
+
+
+
+class Param_Optimize_Config:
+    
+    def __init__(self,training_pipeline_config:TrainingPipelineConfig):
         
+        
+        param_optimize_config_key=config_data[PARAM_OPTIMIZE_CONFIG_KEY]        
+        
+        self.param_optimize_directory=os.path.join(training_pipeline_config.artifact_dir ,param_optimize_config_key[PARAM_OPTIMIZE_DIRECTORY])
+        self.model_object_path=os.path.join(self.param_optimize_directory,param_optimize_config_key[PARAM_OPTIMIZE_MODEL])
+        self.model_report_path=os.path.join(self.param_optimize_directory,param_optimize_config_key[PARAM_OPTIMIZE_MODEL_REPORT])
+        
+        
+         
         
 class ModelEvalConfig:
     
@@ -101,6 +116,7 @@ class ModelEvalConfig:
         model_eval_config_key=config_data[MODEL_EVAL_CONFIG_KEY]        
         
         self.model_eval_directory=os.path.join(training_pipeline_config.artifact_dir ,model_eval_config_key[MODEL_EVALUATION_DIRECTORY])
+        self.model_eval_object=os.path.join(self.model_eval_directory,model_eval_config_key[MODEL_EVALUATION_OBJECT])
         self.model_eval_report=os.path.join(self.model_eval_directory,model_eval_config_key[MODEL_REPORT])
         
         

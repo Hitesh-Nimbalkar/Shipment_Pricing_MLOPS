@@ -9,11 +9,8 @@ from shipment_pricing.constant import *
 from shipment_pricing.utils.main_utils import read_yaml_file,load_object
 from shipment_pricing.constant import *
 from mlflow.tracking import MlflowClient
-from mlflow.tracking.artifact_utils import _download_artifact_from_uri
 import mlflow
-from mlflow.sklearn import log_model
-import joblib
-
+import shutil
 
 class Experiments_evaluation:
     def __init__(self) :
@@ -77,11 +74,11 @@ class Experiments_evaluation:
         # Create a dictionary with the extracted information
         report_data = {
             "Experiment": self.experiment_name,
-          #  "Experiment_id": run.info.experiment_id,
+     #       "Experiment_id": run.info.experiment_id,
             "Run_name": run_name,
             "Model_name": model_name,
             "R2_score": r2_score,
-          #  "Run_id": self.best_model_run_id,
+      #      "Run_id": self.best_model_run_id,
             "parameters": parameters
         }
 
@@ -98,7 +95,7 @@ class Experiments_evaluation:
             # Log metrics, params, and model
             mlflow.log_metric("R2_score", float(self.R2_score))
             mlflow.log_params(self.parameters)
-            mlflow.set_tag("parameters", "custom_tag")
+            mlflow.set_tag("parameters", "parameters")
             mlflow.sklearn.log_model(self.saved_model,self.Model_name)
         
         logging.info("Checking for best model from the Mlflow Logs")
@@ -119,11 +116,18 @@ class ModelEvaluation:
         
         try:
             self.param_optimize_artifact=param_optimize_artifact
+            
             self.model_evaluation_config=model_evaluation_config
+            self.model_evaluation_directory=self.model_evaluation_config.model_eval_directory
 
+            
+            os.makedirs(self.model_evaluation_directory,exist_ok=True)
+            
+            
             self.saved_model_config=SavedModelConfig()
             
             self.saved_model_directory=self.saved_model_config.saved_model_dir
+
             
         except Exception as e:
             raise ApplicationException(e,sys)
@@ -139,62 +143,126 @@ class ModelEvaluation:
         save_object(file_path=saved_model_path,obj=best_model)
         logging.info(f"Best model saved to: {saved_model_path}")
         
+    def run_mlflow_experiment(self,model_path, report_path):
+        # Load YAML file
+        report_data = read_yaml_file(report_path)
+        
+        # Extract experiment and run names
+        experiment_name = report_data['Experiment']
+        run_name = report_data['Run_name']
+        
+        # Mlflow Code
+        logging.info("Mlflow ...")
+        logging.info(f"Experiment: {experiment_name}, Run_name: {run_name}")
+        
+        # Initialize Experiments_evaluation
+        Exp_eval = Experiments_evaluation()
+        
+        # Load model
+        model = load_object(model_path)
+        
+        # Read report data
+        Exp_eval.read_report(report_data=report_data, model=model)
+        
+        # Run Mlflow experiment
+        Exp_eval.run_mlflow_experiment()
+        
+        # Download model and generate report
+        model_report, downloaded_model = Exp_eval.download_model_and_generate_report()
+        
+        # Save model and parameters
+        self.save_model_and_params(
+            saved_model_path=self.model_evaluation_config.model_eval_object,
+            report_file_path=self.model_evaluation_config.model_eval_report,
+            best_model=downloaded_model,
+            best_params=model_report
+        )
+        
+
     def initiate_model_evaluation(self) -> ModelEvaluationArtifact:
 
             logging.info(" Model Evaluation Started ")
             
             
             # Saved Model files
-            saved_model_path = self.saved_model_config.saved_model_object_path
-            saved_model_report_path=self.saved_model_config.saved_model_report_path
+            param_model_path = self.param_optimize_artifact.model_file_path
+            param_report_path=self.param_optimize_artifact.model_report
+
+            
+            model_eval_model_path=self.model_evaluation_config.model_eval_object
+            model_eval_model_report=self.model_evaluation_config.model_eval_report
+            
+            saved_model_directory=self.saved_model_directory
+            os.makedirs(saved_model_directory,exist_ok=True)
+            
+            if not os.listdir(saved_model_directory):
+                # Copying Model and Report to saved model directory 
+                # Copying Model 
+                shutil.copy(param_model_path, model_eval_model_path)
+                # Copying Report 
+                shutil.copy(param_report_path, model_eval_model_report)
+                
+            else: 
+                saved_directory_model_report=self.saved_model_config.saved_model_report_path
+                saved_model_path=self.saved_model_config.saved_model_object_path
+                
+                logging.info(f" saved Report path{saved_directory_model_report} ")
+                saved_model_report=read_yaml_file(saved_directory_model_report)
+                saved_model_score=float(saved_model_report['R2_score'])
+                
+                param_report_data=read_yaml_file(param_report_path)
+                param_model_score=float(param_report_data['R2_score'])
+                
+                if saved_model_score > param_model_score:
+                    # If the saved model score is higher than the artifact model score
+                    
+                    shutil.copy(saved_model_path, model_eval_model_path)
+                     # Copying Report 
+                    shutil.copy(saved_model_path, model_eval_model_report)
+                    
+                
+                    logging.info(f"Selected saved model for training as its score ({saved_model_score}) is higher than the artifact model score ({param_model_score})")
+                    print(f"Selected saved model for training as its score ({saved_model_score}) is higher than the artifact model score ({param_model_score})")
+                elif saved_model_score < param_model_score:
+                    # If the saved model score is lower than the artifact model score
+                    shutil.copy(param_model_path, model_eval_model_path)
+                    # Copying Report
+                    shutil.copy(param_report_path, model_eval_model_report)
+                    
+
+                    logging.info(f"Selected artifact model for training as its score ({param_model_score}) is higher than the saved model score ({saved_model_score})")
+                    print(f"Selected artifact model for training as its score ({param_model_score}) is higher than the saved model score ({saved_model_score})")
+            
             
             
             model_evaluation_artifact=ModelEvaluationArtifact(message="Model Evaluation complete",
-                                                            model_report=saved_model_path,
-                                                            model_file_path=saved_model_report_path)
+                                                            model_report=param_report_path,
+                                                            model_file_path=param_model_path)
 
             return model_evaluation_artifact
         
         
-    def initiate_model_evaluation_local(self) -> ModelEvaluationArtifact:
+    def initiate_model_evaluation_mlflow(self) -> ModelEvaluationArtifact:
         try:
             logging.info(" Model Evaluation Started ")
             
             
-            # Saved Model files
-            saved_model_path = self.saved_model_config.saved_model_object_path
-            saved_model_report_path=self.saved_model_config.saved_model_report_path
+            # param Trained Model  files
+            param_model_file_path = self.param_optimize_artifact.model_file_path
+            param_report_path=self.param_optimize_artifact.model_report
 
             logging.info(" Logging Artifacts from saved directory to Mlflow Ui ....")
-            report_data=read_yaml_file(saved_model_report_path)
-            experiment_name=report_data['Experiment']
-            run_name=report_data['Run_name']
             
-            # Mlflow Code 
-            logging.info(" Mlflow ...")
-            logging.info(f"Experiment : {experiment_name} , Run_name: {run_name}")
-            Exp_eval=Experiments_evaluation()
-            # Accessing report data dn saved model 
-            saved_model=load_object(saved_model_path)
-            Exp_eval.read_report(report_data=report_data,model=saved_model)
-            
-            # Getting best model from the Mlflow log and Saving in the Directory 
-            Exp_eval.run_mlflow_experiment()    
-            
-     
-            model_report,downloaded_model=Exp_eval.download_model_and_generate_report()
-        
-            # Generate a YAML file with the best model parameters
-            self.save_model_and_params(saved_model_path=saved_model_path,
-                                        report_file_path=saved_model_report_path,
-                                        best_model=downloaded_model,
-                                        best_params=model_report
-                                        )
+
+            self.run_mlflow_experiment(
+                                        model_path=param_model_file_path,
+                                      report_path=param_report_path)
+
             
                                             
-            model_evaluation_artifact=ModelEvaluationArtifact(message="Model Evaluation complete",
-                                                            model_report=saved_model_path,
-                                                            model_file_path=saved_model_report_path)
+            model_evaluation_artifact=ModelEvaluationArtifact(message="Model_Evaluation_Complete",
+                                                              model_report=self.model_evaluation_config.model_eval_report,
+                                                              model_file_path=self.model_evaluation_config.model_eval_object)
 
             return model_evaluation_artifact
         

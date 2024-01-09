@@ -79,6 +79,12 @@ MODEL_TRAINING_MLFLOW='mlflow'
 MLFLOW_RUN_NAME='Run_name'
 MLFLOW_EXPERIMENT='Experiment'
 
+# Param Optimisation 
+PARAM_OPTIMIZE_CONFIG_KEY='param_optimize_config'
+PARAM_OPTIMIZE_DIRECTORY='param_optimize_dir'
+PARAM_OPTIMIZE_MODEL='model_object'
+PARAM_OPTIMIZE_MODEL_REPORT='model_report'
+
 # Saved Model 
 SAVED_MODEL_CONFIG_KEY='saved_model_config'
 SAVED_MODEL_DIR='directory'
@@ -88,8 +94,14 @@ SAVED_MODEL_REPORT='model_report'
 ##  model evaluation 
 MODEL_EVAL_CONFIG_KEY='model_eval_config'
 MODEL_EVALUATION_DIRECTORY='model_eval_dir'
-MODEL_REPORT='model_eval_report'
+MODEL_EVALUATION_OBJECT='model_object'
+MODEL_REPORT='model_report'
 
+
+from shipment_pricing.utils.main_utils import read_yaml_file
+config_data=read_yaml_file(CONFIG_FILE_PATH)
+EXPERIMENT=config_data[MODEL_TRAINING_CONFIG_KEY][MODEL_TRAINING_MLFLOW][MLFLOW_EXPERIMENT]
+RUN_NAME=config_data[MODEL_TRAINING_CONFIG_KEY][MODEL_TRAINING_MLFLOW][MLFLOW_RUN_NAME]
 
 ## Artifact Entity 
 file_path=os.path.join(ROOT_DIR,'src','shipment_pricing','entity','artifact_entity.yaml')

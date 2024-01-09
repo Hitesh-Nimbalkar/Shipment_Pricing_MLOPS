@@ -7,4 +7,4 @@ models:
 
 
 optuna:
-  trials: 1
+  trials: 5

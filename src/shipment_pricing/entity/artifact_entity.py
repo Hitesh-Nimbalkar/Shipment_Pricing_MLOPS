@@ -36,3 +36,6 @@ class ModelEvaluationArtifact:
     model_file_path:str
     model_report:str
     
+@dataclass
+class ModelPusherArtifact:
+    message:str
