@@ -8,9 +8,10 @@ from shipment_pricing.entity.artifact_entity import *
 from shipment_pricing.constant import *
 from shipment_pricing.utils.main_utils import read_yaml_file,load_object
 from shipment_pricing.constant import *
-from mlflow.tracking import MlflowClient
-import mlflow
+#from mlflow.tracking import MlflowClient
+#import mlflow
 import shutil
+'''
 
 class Experiments_evaluation:
     def __init__(self) :
@@ -106,7 +107,7 @@ class Experiments_evaluation:
 
         return self.best_model_run_id
 
-
+'''
 
 class ModelEvaluation:
 
@@ -142,7 +143,7 @@ class ModelEvaluation:
         # Save the best model
         save_object(file_path=saved_model_path,obj=best_model)
         logging.info(f"Best model saved to: {saved_model_path}")
-        
+    '''
     def run_mlflow_experiment(self,model_path, report_path):
         # Load YAML file
         report_data = read_yaml_file(report_path)
@@ -177,7 +178,7 @@ class ModelEvaluation:
             best_model=downloaded_model,
             best_params=model_report
         )
-        
+    '''
 
     def initiate_model_evaluation(self) -> ModelEvaluationArtifact:
 
@@ -261,9 +262,9 @@ class ModelEvaluation:
             logging.info(" Logging Artifacts from saved directory to Mlflow Ui ....")
             
 
-            self.run_mlflow_experiment(
-                                        model_path=param_model_file_path,
-                                      report_path=param_report_path)
+         #   self.run_mlflow_experiment(
+         #                               model_path=param_model_file_path,
+         #                             report_path=param_report_path)
 
             
                                             

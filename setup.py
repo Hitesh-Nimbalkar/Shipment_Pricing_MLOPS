@@ -15,7 +15,7 @@ def get_requirements() -> List[str]:
 
 setup(
     name="Shipment Pricing",
-    version="0.9.2",
+    version="0.0.3",
     author="Hitesh Nimbalkar",
     author_email="nimbalkarhitesh@gmail.com",
     description="ML Regression",
