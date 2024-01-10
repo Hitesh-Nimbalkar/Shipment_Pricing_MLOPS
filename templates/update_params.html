@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DVC Pipeline Parameters</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        h2 {
+            color: #666;
+        }
+
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: 80%;
+            max-width: 800px;
+            background-color: #fff;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        input[type="text"], input[type="checkbox"], input[type="submit"] {
+            width: 100%;
+            padding: 8px;
+            margin: 4px 0;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"], button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover, button:hover {
+            background-color: #45a049;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            background-color: #007BFF;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>DVC Pipeline Parameters</h1>
+    <h2>Experiment Information</h2>
+    <form method="POST">
+        <table>
+            <tr>
+                <th>Field</th>
+                <th>Value</th>
+            </tr>
+            {% for key, value in params.items() if key not in ['parameters', 'force'] %}
+            <tr>
+                <td>{{ key }}</td>
+                <td><input type="text" name="{{ key }}" value="{{ value }}"></td>
+            </tr>
+            {% endfor %}
+        </table>
+        <h2>Parameters</h2>
+        <table>
+            <tr>
+                <th>Parameter</th>
+                <th>Value</th>
+            </tr>
+            {% for key, value in params['parameters'].items() %}
+            <tr>
+                <td>{{ key }}</td>
+                <td><input type="text" name="params[{{ key }}]" value="{{ value }}"></td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br>
+        <label for="force">Force Update:</label>
+        <input type="checkbox" name="force">
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+    {% if message %}
+    <p>{{ message }}</p>
+    {% endif %}
+
+    <div class="button-container">
+        <a href="http://localhost:8080" target="_blank">Go to Home</a>
+    </div>
+</body>
+</html>

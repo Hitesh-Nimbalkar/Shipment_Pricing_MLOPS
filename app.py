@@ -194,7 +194,7 @@ def dvc_pipeline():
         for key, value in edited_params.items():
             if key.startswith('params['):
                 param_name = key.split('[')[1].split(']')[0]
-                params_data['Parameters'][param_name] = value
+                params_data['parameters'][param_name] = value
             else:
                 params_data[key] = value
 
@@ -206,23 +206,6 @@ def dvc_pipeline():
         message= "Paramters updated"
         return render_template('update_params.html', params=params_data, message=message)
 
-
-@app.route('/repro', methods=['POST'])
-def repro():
-    command = ['dvc', 'repro']
-    
-    if request.form.get('command') == 'repro_force':
-        command.append('--force')
-    
-    import subprocess
-    try:
-        # Execute the command here
-        subprocess.run(command, check=True)
-        message = "Dvc ran Successfully"
-    except subprocess.CalledProcessError as e:
-        message = f"Error running DVC: {e.stderr}"
-    
-    return render_template('index.html', error=message)
 
 
 
