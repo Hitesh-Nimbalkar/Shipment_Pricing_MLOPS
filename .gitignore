@@ -143,3 +143,4 @@ dmypy.json
 .params.yaml/
 .preprocessor/
 .batch_prediction/
+.preprocessed.pkl

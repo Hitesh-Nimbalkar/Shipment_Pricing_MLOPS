@@ -5,7 +5,11 @@
 .params.yaml
 .EDA/
 .venv 
-aplications_logs
+.Saved_model/
+
+
+applications_logs
 artifact
 buildsdist
 params.yaml
+Saved_model

@@ -27,25 +27,48 @@ saved_model_directory=config_data['saved_model_config']['directory']
 model_file_label=config_data['saved_model_config']['model_object']
 saved_model_file_path=os.path.join(saved_model_directory,model_file_label)
 
+class ModelLoader:
+    def __init__(self, feat_eng_file_path, preprocessor_object_file_path, saved_model_file_path):
+        self.feat_eng_file_path = feat_eng_file_path
+        self.preprocessor_object_file_path = preprocessor_object_file_path
+        self.saved_model_file_path = saved_model_file_path
 
-try:
-    feat_eng = load_object(feat_eng_file_path)
-    preprocessor = load_object(preprocessor_object_file_path)
-    model = load_object(saved_model_file_path)
-except FileNotFoundError as e:
-    print(f"Error loading object: {e}")
+        # Initialize attributes with None
+        self.feat_eng = None
+        self.preprocessor = None
+        self.model = None
+
+    def load_objects(self):
+        try:
+            self.feat_eng = load_object(self.feat_eng_file_path)
+            self.preprocessor = load_object(self.preprocessor_object_file_path)
+            self.model = load_object(self.saved_model_file_path)
+        except FileNotFoundError as e:
+            print(f"Error loading object: {e}")
 
 
 class instance_prediction_class:
     def __init__(self,df):
         self.user_input=df
+        model_loader=ModelLoader(feat_eng_file_path=feat_eng_file_path,
+                    preprocessor_object_file_path=preprocessor_object_file_path,
+                    saved_model_file_path=saved_model_file_path)
+        
+        model_loader.load_objects()
+        
+        self.feat_eng=model_loader.feat_eng
+        self.preprocessor=model_loader.preprocessor
+        self.model=model_loader.model
         pass
     
  
     def preprocess_input(self):
         
+        
+
+        
         # Data Framsformation 
-        transformed_data=feat_eng.transform(self.user_input)
+        transformed_data=self.feat_eng.transform(self.user_input)
         
         
         logging.info("Transformation Complete")
@@ -53,7 +76,7 @@ class instance_prediction_class:
         logging.info(f" Columns after transformation : {transformed_data.columns}")
         
         # Transforming Columns 
-        preprocessed_array = preprocessor.transform(transformed_data)
+        preprocessed_array = self.preprocessor.transform(transformed_data)
         
         logging.info("Preprocessing Done ")
         
@@ -62,7 +85,7 @@ class instance_prediction_class:
 
     def prediction(self, preprocessed_input):
         # Make a prediction using the pre-trained model
-        predicted_expenses = model.predict(preprocessed_input)
+        predicted_expenses = self.model.predict(preprocessed_input)
 
         # Return the array of predicted prices
         return predicted_expenses
