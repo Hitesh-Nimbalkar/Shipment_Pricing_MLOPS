@@ -134,6 +134,14 @@ class DataIngestion:
         try:
             
             logging.info("---------------------- Initiating Data Ingestion -----------------")
+            file_path='params.yaml'
+            if os.path.exists(file_path):
+                os.remove(file_path)
+                print(f"The file '{file_path}' has been deleted.")
+            else:
+                print(f"The file '{file_path}' does not exist.")
+                        
+                        
             
             logging.info("Downloading data from mongo ")
              # Define the path where you want to save the YAML file

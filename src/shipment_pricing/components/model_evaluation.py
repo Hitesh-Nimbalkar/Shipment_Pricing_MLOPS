@@ -212,6 +212,7 @@ class ModelEvaluation:
                 
                 param_report_data=read_yaml_file(param_report_path)
                 param_model_score=float(param_report_data['R2_score'])
+            
                 
                 if saved_model_score > param_model_score:
                     # If the saved model score is higher than the artifact model score
@@ -232,7 +233,13 @@ class ModelEvaluation:
 
                     logging.info(f"Selected artifact model for training as its score ({param_model_score}) is higher than the saved model score ({saved_model_score})")
                     print(f"Selected artifact model for training as its score ({param_model_score}) is higher than the saved model score ({saved_model_score})")
-            
+                else: 
+                                        
+                    shutil.copy(param_model_path, model_eval_model_path)
+                    # Copying Report
+                    shutil.copy(param_report_path, model_eval_model_report)
+                    
+                    logging.info(" Both Models have similar score Storing model with new parameters  ")
             
             
             model_evaluation_artifact=ModelEvaluationArtifact(message="Model Evaluation complete",
