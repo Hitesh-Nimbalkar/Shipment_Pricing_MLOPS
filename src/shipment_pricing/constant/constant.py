@@ -98,6 +98,14 @@ MODEL_EVALUATION_OBJECT='model_object'
 MODEL_REPORT='model_report'
 
 
+
+AWS_CONFIG_KEY ='Aws_config'
+# Bucket Details
+S3_BUCKET='S3_bucket'
+BUCKET_NAME='bucket_name'
+
+
+
 from shipment_pricing.utils.main_utils import read_yaml_file
 config_data=read_yaml_file(CONFIG_FILE_PATH)
 EXPERIMENT=config_data[MODEL_TRAINING_CONFIG_KEY][MODEL_TRAINING_MLFLOW][MLFLOW_EXPERIMENT]

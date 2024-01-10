@@ -15,6 +15,7 @@ from src.shipment_pricing.constant import *
 from src.shipment_pricing.pipeline.train import Pipeline
 from src.shipment_pricing.data_access.mongo_access import mongo_client
 import yaml
+from aws_bucket import download_s3_bucket
 
 
 # Load the preprocessor and machine learning model
@@ -51,6 +52,8 @@ DATABASE_NAME=config_data[DATA_INGESTION_CONFIG_KEY][DATA_INGESTION_DATABASE_NAM
 COLLECTION_PREDICTION_NAME=config_data['Prediction']['mongo_prediction']['collection_label']
 
 
+s3_bucket_name = config_data[AWS_CONFIG_KEY][S3_BUCKET][BUCKET_NAME]
+download_s3_bucket(bucket_name=s3_bucket_name,local_folder=os.path.join(os.getcwd()))
 
 app = Flask(__name__)
 ALLOWED_EXTENSIONS = {'csv'}

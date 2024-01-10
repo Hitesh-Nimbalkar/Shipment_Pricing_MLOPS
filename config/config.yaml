@@ -66,3 +66,8 @@ Prediction:
     prediction_csv: prediction.csv
   mongo_prediction:
     collection_label: prediction
+
+
+Aws_config:
+  S3_bucket:
+    bucket_name: shipment-pricing

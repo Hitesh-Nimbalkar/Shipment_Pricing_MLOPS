@@ -140,7 +140,12 @@ dmypy.json
 .Saved_model/
 .project_artifact/
 .mlruns/
+
+
 .params.yaml/
 .preprocessor/
 .batch_prediction/
 .preprocessed.pkl
+
+params.yaml
+batch_prediction/
