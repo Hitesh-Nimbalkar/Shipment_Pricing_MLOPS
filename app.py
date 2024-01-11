@@ -16,7 +16,7 @@ from src.shipment_pricing.pipeline.train import Pipeline
 from src.shipment_pricing.data_access.mongo_access import mongo_client
 import yaml
 
-from aws_bucket import download_s3_bucket
+#from aws_bucket import download_s3_bucket
 
 
 # Load the preprocessor and machine learning model
