@@ -60,7 +60,7 @@ ALLOWED_EXTENSIONS = {'csv'}
 
 @app.route("/", methods=["GET", "POST"])
 def home():
-    return render_template("index_1.html")
+    return render_template("index.html")
 
 @app.route("/batch", methods=["GET","POST"])
 def perform_batch_prediction():
@@ -161,19 +161,55 @@ def predict():
 
 
 
-
-@app.route('/aws')
-def index():
+@app.route('/train', methods=['GET'])
+def train():
     try:
-        # Assuming config_data is available in your application, you might get it from somewhere
-        s3_bucket_name = config_data[AWS_CONFIG_KEY][S3_BUCKET][BUCKET_NAME]
-        local_folder = os.path.join(os.getcwd())
+        pipeline = Pipeline()
+        pipeline.run_pipeline()
 
-        download_s3_bucket(bucket_name=s3_bucket_name, local_folder=local_folder)
+        return render_template('index.html', message="Training complete")
 
-        return render_template('index_1.html', message='S3 Bucket downloaded successfully!')
     except Exception as e:
-        return render_template('index_1.html', error=str(e))
+        logging.error(f"{e}")
+        error_message = str(e)
+        return render_template('index.html', error=error_message)
+
+
+
+@app.route('/update_params', methods=['GET', 'POST'])
+def dvc_pipeline():
+    if request.method == 'GET':
+        # Read the current parameters from params.yaml
+        with open('params.yaml', 'r') as params_file:
+            params_data = yaml.safe_load(params_file)
+
+        # Display the form with the current parameters
+        return render_template('update_params.html', params=params_data)
+    elif request.method == 'POST':
+        # Read the current parameters from params.yaml
+        with open('params.yaml', 'r') as params_file:
+            params_data = yaml.safe_load(params_file)
+
+        # Get the form data, including edited parameters and the 'force' option
+        edited_params = request.form.to_dict()
+
+        # Update the params_data with the edited parameter values
+        for key, value in edited_params.items():
+            if key.startswith('params['):
+                param_name = key.split('[')[1].split(']')[0]
+                params_data['parameters'][param_name] = value
+            else:
+                params_data[key] = value
+
+        # Write the updated params_data to params.yaml
+        with open('params.yaml', 'w') as params_update_file:
+            yaml.dump(params_data, params_update_file, default_flow_style=False)
+
+        
+        message= "Paramters updated"
+        return render_template('update_params.html', params=params_data, message=message)
+
+
 
 
 if __name__ == '__main__':

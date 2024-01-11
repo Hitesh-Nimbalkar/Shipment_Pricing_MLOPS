@@ -15,7 +15,7 @@ seaborn
 scikit-learn
 #geopandas
 statsmodels
-#optuna
+optuna
 boto3
 #dvc
 dill

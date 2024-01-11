@@ -2,6 +2,8 @@ import os
 from src.shipment_pricing.data_access.aws_connect import S3Connector
 from src.shipment_pricing.constant import *
 from src.shipment_pricing.utils.main_utils import read_yaml_file
+import os
+from dotenv import load_dotenv
 
 
 def delete_all_files_in_bucket(bucket_name):
@@ -11,13 +13,16 @@ def delete_all_files_in_bucket(bucket_name):
     Parameters:
     - bucket_name: Name of the S3 bucket
     """
-    s3_connector = S3Connector()
-    s3_client = s3_connector.get_s3_client()
+    try:
+        s3_connector = S3Connector()
+        s3_client = s3_connector.get_s3_client()
 
-    # List all objects in the bucket and delete them
-    objects_to_delete = s3_client.list_objects_v2(Bucket=bucket_name)['Contents']
-    for obj in objects_to_delete:
-        s3_client.delete_object(Bucket=bucket_name, Key=obj['Key'])
+        # List all objects in the bucket and delete them
+        objects_to_delete = s3_client.list_objects_v2(Bucket=bucket_name)['Contents']
+        for obj in objects_to_delete:
+            s3_client.delete_object(Bucket=bucket_name, Key=obj['Key'])
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
 def upload_folder_to_specific_folder_in_s3(local_folder_path, bucket_name, destination_folder):
     """

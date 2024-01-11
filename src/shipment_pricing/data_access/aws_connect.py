@@ -11,10 +11,15 @@ class S3Connector:
     def load_aws_credentials(self):
         # Load environment variables from .env file
         load_dotenv()
+        AWS_ACCESS_KEY_ID='AKIAYS2NXLBT73JAEVVV'
+        AWS_SECRET_ACCESS_KEY='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'
+
 
         # Retrieve AWS credentials from environment variables
-        self.aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
-        self.aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
+      #  self.aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
+      #  self.aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
+        self.aws_access_key_id = AWS_ACCESS_KEY_ID
+        self.aws_secret_access_key = AWS_SECRET_ACCESS_KEY
 
     def get_s3_client(self):
         return self.s3_client
