@@ -162,18 +162,6 @@ def predict():
 
 
 
-@app.route('/aws')
-def index():
-    try:
-        # Assuming config_data is available in your application, you might get it from somewhere
-        s3_bucket_name = config_data[AWS_CONFIG_KEY][S3_BUCKET][BUCKET_NAME]
-        local_folder = os.path.join(os.getcwd())
-
-        download_s3_bucket(bucket_name=s3_bucket_name, local_folder=local_folder)
-
-        return render_template('index_1.html', message='S3 Bucket downloaded successfully!')
-    except Exception as e:
-        return render_template('index_1.html', error=str(e))
 
 
 if __name__ == '__main__':

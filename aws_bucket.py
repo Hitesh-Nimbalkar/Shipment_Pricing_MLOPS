@@ -93,5 +93,3 @@ if __name__ == "__main__":
     upload_folder_to_specific_folder_in_s3(local_folder_path=saved_directory, bucket_name=s3_bucket_name,destination_folder='Saved_model')
     upload_folder_to_specific_folder_in_s3(local_folder_path=preprocessor, bucket_name=s3_bucket_name,destination_folder='preprocessor')
 
-    # Download files from S3 to a local folder
- #   download_folder_from_s3(s3_bucket_name, s3_folder_key, local_destination_path)
