@@ -147,3 +147,58 @@ Once the selection is made, we save the chosen model along with its associated m
 
 
 Upon selecting the models and gathering the relevant information from the evaluation module, we proceed to push the chosen model and its corresponding report to the saved model directory. This ensures that the selected model is readily available for future prediction processes.
+
+
+### How to Run this Project Locally
+
+### Step 1: Clone the repository
+
+```
+git clone https://github.com/Hitesh-Nimbalkar/Shipment_Pricing_MLOPS.git
+```
+
+### Step 2- Create a conda environment after opening the repository
+
+```
+conda create -n sensor python=3.11 -y
+```
+
+```
+conda activate sensor
+```
+
+### Step 3 - Install the requirements
+
+```
+pip install -r requirements.txt
+```
+
+### Step 4 - Export the environment variable
+
+```
+export AWS_ACCESS_KEY_ID=<AWS_ACCESS_KEY_ID>
+
+export AWS_SECRET_ACCESS_KEY=<AWS_SECRET_ACCESS_KEY>
+
+export AWS_DEFAULT_REGION=<AWS_DEFAULT_REGION>
+```
+
+### Step 5 - Run the application server
+
+```
+python app.py
+```
+
+### Step 6. Train application
+
+```
+http://localhost:8080/train
+
+```
+
+### Step 7. Prediction application
+
+```
+http://localhost:8080/predict
+
+```
