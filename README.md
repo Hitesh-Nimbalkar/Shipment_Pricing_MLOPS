@@ -2,11 +2,13 @@
 
 ### UI
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/2f11d54b-ad96-4202-84d6-3ca18a636c60/46c0320e-83e7-41be-bb6d-f6f554af7f35/Untitled.png)
+![Untitled](https://github.com/Hitesh-Nimbalkar/Shipment_Pricing_MLOPS/assets/109200332/4da4d7f0-d623-4b0e-91ca-4abc7799e6c1)
+
 
 Deployment Architecture 
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/2f11d54b-ad96-4202-84d6-3ca18a636c60/ca62e999-81c8-47b7-9032-918ba406f995/Untitled.png)
+![github actions](https://github.com/Hitesh-Nimbalkar/Shipment_Pricing_MLOPS/assets/109200332/34520d64-2741-4b2f-b636-fe4a7b262838)
+
 
 ### Tools used
 
@@ -29,7 +31,7 @@ GitHub provides features such as version tracking, collaboration tools, issue tr
 - Provides a flexible and customizable workflow for various development and deployment scenarios.
 - Enhances collaboration by automating repetitive tasks and ensuring code quality.
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/2f11d54b-ad96-4202-84d6-3ca18a636c60/0a9b144a-9259-4b86-9860-5f46adc3e9f0/Untitled.png)
+![CICD](https://github.com/Hitesh-Nimbalkar/Shipment_Pricing_MLOPS/assets/109200332/10b741c2-9b04-4ad4-9682-8cc2846d71ff)
 
 **DVC (Data Version Control):**
 
@@ -62,23 +64,25 @@ Freight Cost ( USD)
 R2 Score
 
 ## **Training Pipeline**
+![terianing pipeline](https://github.com/Hitesh-Nimbalkar/Shipment_Pricing_MLOPS/assets/109200332/86af3a65-3dfa-4322-b4f7-96f41ba35694)
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/2f11d54b-ad96-4202-84d6-3ca18a636c60/808de915-6ac2-48d8-95a4-b368f570f86a/Untitled.png)
-
+\
 ### Data Ingestion
+![Data Ingstion](https://github.com/Hitesh-Nimbalkar/Shipment_Pricing_MLOPS/assets/109200332/8524514b-8add-41a9-99d2-0adffd721f80)
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/2f11d54b-ad96-4202-84d6-3ca18a636c60/03f47a73-be42-4f45-9a9e-93dc20a0b2b5/Untitled.png)
+
+![Data Ingestion](https://github.com/Hitesh-Nimbalkar/Shipment_Pricing_MLOPS/assets/109200332/910eca00-13dd-4a09-8e9e-34ec516b2807)
+
 
 Data Ingestion class represents a data ingestion process that involves retrieving data from a data source, saving it in a raw data directory, and splitting it into training and test datasets.
 The class code flows in following way:
 Data Ingestion class takes a necessary elements and that provides the configuration settings for the data ingestion process.
 It retrieves data from a data source and saves it in a raw data directory. It accesses the configuration settings to determine the location of the raw data directory and performs the necessary operations to obtain the data from the data source and saves it in the specified directory.
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/2f11d54b-ad96-4202-84d6-3ca18a636c60/c9f52448-641c-46a9-8916-00f5fd6d4686/Untitled.png)
-
 ### Data Validation
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/2f11d54b-ad96-4202-84d6-3ca18a636c60/240a2775-de07-44c9-9ed6-00a83d9efd3e/Untitled.png)
+![Data Validation](https://github.com/Hitesh-Nimbalkar/Shipment_Pricing_MLOPS/assets/109200332/07f40ed5-6f25-40f2-9be2-89051367881c)
+
 
 This method aims to validate the training and test data stored in the artifact folder as a result of the data ingestion process carried out earlier. Its responsibility is to perform validation checks on the training and test datasets.
 The method follows a series of steps to validate the data and logs the validation process. If the validation is successful, it exports the validated datasets to specified paths and returns the paths. However, if the validation fails, it raises an exception.
@@ -93,7 +97,8 @@ Throughout the process, the class handles any exceptions that may occur and rais
 
 ### Data Transformation
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/2f11d54b-ad96-4202-84d6-3ca18a636c60/d0cd1b5b-fd49-4a53-bad8-81d6aeba5c5b/Untitled.png)
+![Data Transformation](https://github.com/Hitesh-Nimbalkar/Shipment_Pricing_MLOPS/assets/109200332/e4f2b976-4c69-4e18-94b6-c866c40469fd)
+
 
 Once the validated data is obtained from the artifact folder, it proceeds for the necessary transformations before being used for model training. These transformations ensure that the data is in a suitable format and structure for the training process.
 
@@ -122,11 +127,13 @@ Train Data , Test Data
 
 ### Model Training
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/2f11d54b-ad96-4202-84d6-3ca18a636c60/51d6f0c2-50a2-4b45-8e98-cc6eb3b91545/Untitled.png)
+![Model Traiing](https://github.com/Hitesh-Nimbalkar/Shipment_Pricing_MLOPS/assets/109200332/c2f51de7-e8e0-42f1-9076-df11dc46760a)
+
 
 ### Model Evaluation
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/2f11d54b-ad96-4202-84d6-3ca18a636c60/296f09ca-c757-4c0b-9beb-9f8dc383f3b6/Untitled.png)
+![Model Evaluation](https://github.com/Hitesh-Nimbalkar/Shipment_Pricing_MLOPS/assets/109200332/be035c27-54c2-446d-8ff6-b997ff1ae8c1)
+
 
 The model selection process is driven by MLFlow experimentation, where the best model is chosen based on the desired metric. The saved model directory may contain earlier models and other necessary components from previous iterations.
 
@@ -136,6 +143,7 @@ Once the selection is made, we save the chosen model along with its associated m
 
 ### Model Pusher
 
-https://imgr.whimsical.com/object/RNF48yHL98pcYPkp8CWePw
+![Model Pusher](https://github.com/Hitesh-Nimbalkar/Shipment_Pricing_MLOPS/assets/109200332/16aab67c-34d4-4835-906c-f8fe35b48873)
+
 
 Upon selecting the models and gathering the relevant information from the evaluation module, we proceed to push the chosen model and its corresponding report to the saved model directory. This ensures that the selected model is readily available for future prediction processes.
